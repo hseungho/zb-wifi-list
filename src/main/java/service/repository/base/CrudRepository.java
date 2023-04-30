@@ -1,13 +1,14 @@
 package service.repository.base;
 
 import java.util.List;
+import java.util.Optional;
 
-public interface CrudRepository<E> {
+public interface CrudRepository<E, ID> {
 
     void save(E e);
-    E find(Long id);
+    Optional<E> findById(ID id);
     List<E> findAll();
-    boolean update(Long id);
-    boolean delete(Long id);
+    boolean update(ID id);
+    boolean delete(ID id);
 
 }

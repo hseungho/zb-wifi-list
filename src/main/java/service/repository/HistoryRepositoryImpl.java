@@ -9,11 +9,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class HistoryRepositoryImpl extends Repository implements HistoryRepository {
 
     public HistoryRepositoryImpl() {
-        super.connect();
+        super.connect("History");
         super.initEachTable(SQLConstants.HISTORY_TABLE.DDL);
     }
 
@@ -51,7 +52,7 @@ public class HistoryRepositoryImpl extends Repository implements HistoryReposito
     }
 
     @Override
-    public History find(Long id) {
+    public Optional<History> findById(Long id) {
 
         return null;
     }
@@ -60,7 +61,7 @@ public class HistoryRepositoryImpl extends Repository implements HistoryReposito
     public List<History> findAll() {
         String query = SQLConstants.HISTORY_TABLE.SELECT_ALL;
 
-        ResultSet rs = super.find(query);
+        ResultSet rs = super.findQuery(query);
 
         List<History> historyList = new ArrayList<>();
         try {

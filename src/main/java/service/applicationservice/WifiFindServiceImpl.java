@@ -42,4 +42,14 @@ public class WifiFindServiceImpl implements WifiFindService {
 
         return distanceDtos;
     }
+
+    @Override
+    public WifiDistanceResponseDto getWifiInfo(String id) {
+        Wifi wifi = wifiRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("NO Data"));
+
+        return WifiDistanceResponseDto.of(0.0000, wifi);
+    }
+
+
 }

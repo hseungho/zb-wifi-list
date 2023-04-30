@@ -14,7 +14,7 @@ import java.util.*;
 public class WifiRepositoryImpl extends Repository implements WifiRepository {
 
     public WifiRepositoryImpl() {
-        super.connect();
+        super.connect("Wifi");
         super.initEachTable(SQLConstants.WIFI_TABLE.DDL);
     }
 
@@ -83,15 +83,29 @@ public class WifiRepositoryImpl extends Repository implements WifiRepository {
     }
 
     @Override
-    public Wifi find(Long id) {
-        return null;
+    public Optional<Wifi> findById(String id) {
+        String query = SQLConstants.WIFI_TABLE.SELECT_WHERE_ID;
+
+        ResultSet rs = super.executeQuery(query, id);
+
+        try {
+            if (rs.next()) {
+                Wifi wifi = Wifi.of(rs);
+                return Optional.of(wifi);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return Optional.empty();
     }
 
     @Override
     public List<Wifi> findAll() {
         String query = SQLConstants.WIFI_TABLE.SELECT_ALL;
 
-        ResultSet rs = super.find(query);
+        ResultSet rs = super.findQuery(query);
 
         List<Wifi> wifiList = new ArrayList<>();
         try {
@@ -107,12 +121,12 @@ public class WifiRepositoryImpl extends Repository implements WifiRepository {
     }
 
     @Override
-    public boolean update(Long id) {
+    public boolean update(String id) {
         return false;
     }
 
     @Override
-    public boolean delete(Long id) {
+    public boolean delete(String id) {
         return false;
     }
 }

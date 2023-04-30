@@ -9,13 +9,13 @@ public class Repository {
     protected Statement statement = null;
     protected ResultSet resultSet = null;
 
-    public void connect() {
+    public void connect(String dbName) {
         try {
             Class.forName(DBConfig.SQLITE_DRIVER);
             this.connect = DriverManager.getConnection(DBConfig.SQLITE_FILE_DB_URL);
             this.connect.setAutoCommit(DBConfig.OPT_AUTO_COMMIT);
 
-            System.out.println("DB Connected");
+            System.out.println(dbName+" DB Connected");
 
         } catch (SQLException e) {
             System.out.println("ERROR:: DB CONNECTION");
@@ -45,7 +45,7 @@ public class Repository {
         }
     }
 
-    public ResultSet find(String query) {
+    public ResultSet findQuery(String query) {
         try {
             PreparedStatement preparedStatement = connect.prepareStatement(query);
             resultSet = executeQuery(preparedStatement);
@@ -58,6 +58,21 @@ public class Repository {
     public boolean update(String query) {
         int resultRows = executeUpdate(query);
         return resultRows > 0;
+    }
+
+    protected ResultSet executeQuery(String query, Object... conditions) {
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connect.prepareStatement(query);
+
+            for (int i = 1; i <= conditions.length; i++) {
+                preparedStatement.setString(i, String.valueOf(conditions[i-1]));
+            }
+            resultSet = executeQuery(preparedStatement);
+            return resultSet;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     protected ResultSet executeQuery(PreparedStatement statement) {

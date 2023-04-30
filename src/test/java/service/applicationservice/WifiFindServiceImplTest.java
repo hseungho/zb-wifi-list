@@ -24,4 +24,12 @@ class WifiFindServiceImplTest {
         }
     }
 
+    @Test
+    void test_getWifiInfo() {
+        String id = "---EP000001";
+
+        WifiDistanceResponseDto wifiInfo = wifiFindService.getWifiInfo(id);
+        System.out.println(wifiInfo);
+    }
+
 }

@@ -8,4 +8,6 @@ public interface WifiFindService {
 
     List<WifiDistanceResponseDto> getDistanceWifiList(Double lat, Double lnt);
 
+    WifiDistanceResponseDto getWifiInfo(String id);
+
 }

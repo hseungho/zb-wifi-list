@@ -6,7 +6,7 @@ import service.repository.base.CrudRepository;
 import java.util.List;
 import java.util.Map;
 
-public interface WifiRepository extends CrudRepository<Wifi> {
+public interface WifiRepository extends CrudRepository<Wifi, String> {
 
     void saveAll(List<Map<String, Object>> mapList);
 

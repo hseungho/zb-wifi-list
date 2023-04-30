@@ -23,6 +23,8 @@ public class SQLConstants {
 
         public static final String SELECT_ALL = "SELECT * FROM WIFI";
 
+        public static final String SELECT_WHERE_ID = "SELECT * FROM WIFI WHERE id = ?;";
+
     }
 
     public static class HISTORY_TABLE {

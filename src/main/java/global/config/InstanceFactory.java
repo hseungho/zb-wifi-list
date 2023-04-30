@@ -67,6 +67,15 @@ public class InstanceFactory {
         }
     }
 
+    public static class WifiBookmarkFindServiceFactory {
+        public static WifiBookmarkFindService getInstance() {
+            return LazyHolder.INSTANCE;
+        }
+        private static class LazyHolder {
+            private static final WifiBookmarkFindService INSTANCE = new WifiBookmarkFindServiceImpl();
+        }
+    }
+
     //////////////////////////////////////////////////////////////////////////////
     // Repository Factory
     public static class ConnectionPoolFactory {

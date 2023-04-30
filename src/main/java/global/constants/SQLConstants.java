@@ -61,9 +61,15 @@ public class SQLConstants {
                         "FOREIGN KEY (wifi_id) REFERENCES wifi(id)," +
                         "FOREIGN KEY (bookmark_id) REFERENCES bookmark(id)" +
                         ");";
-
         public static final String INSERT_BASIC_STATEMENT = "INSERT INTO WIFI_BOOKMARK (wifi_id, bookmark_id, created_at) VALUES (?, ?, ?);";
         public static final String SELECT_ALL = "SELECT * FROM WIFI_BOOKMARK;";
+        public static final String SELECT_ALL_JOIN_WIFI_JOIN_BOOKMARK =
+                "SELECT wb.id as id, wb.created_at, " +
+                        "w.id as w_id, w.name as w_name, " +
+                        "b.id as b_id, b.name as b_name, b.order_num as b_order_num " +
+                        "FROM wifi_bookmark wb " +
+                        "JOIN wifi w ON wb.wifi_id = w.id " +
+                        "JOIN bookmark b ON wb.bookmark_id = b.id;";
 
     }
 

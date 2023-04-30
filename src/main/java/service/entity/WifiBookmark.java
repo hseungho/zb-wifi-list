@@ -14,16 +14,16 @@ import java.time.LocalDateTime;
 public class WifiBookmark {
 
     private Long id;
-    private String wifiId;
-    private Long bookmarkId;
+    private Wifi wifi;
+    private Bookmark bookmark;
     private LocalDateTime createdAt;
 
     public void associate(Wifi wifi) {
-        this.wifiId = wifi.getId();
+        this.wifi = wifi;
     }
 
     public void associate(Bookmark bookmark) {
-        this.bookmarkId = bookmark.getId();
+        this.bookmark = bookmark;
     }
 
     ////////////////////////////////////////////////////////////////////
@@ -37,8 +37,6 @@ public class WifiBookmark {
     public static WifiBookmark of(ResultSet rs) throws SQLException {
         WifiBookmark wifiBookmark = new WifiBookmark();
         wifiBookmark.id = rs.getLong(WifiBookmarkConstants.FIELD_ID);
-        wifiBookmark.wifiId = rs.getString(WifiBookmarkConstants.FIELD_WIFI_ID);
-        wifiBookmark.bookmarkId = rs.getLong(WifiBookmarkConstants.FIELD_BOOKMARK_ID);
         wifiBookmark.createdAt = LocalDateTime.parse(rs.getString(WifiBookmarkConstants.FIELD_CREATED_AT));
         return wifiBookmark;
     }

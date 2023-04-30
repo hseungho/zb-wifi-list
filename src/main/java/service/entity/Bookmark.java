@@ -28,6 +28,14 @@ public class Bookmark {
         return bookmark;
     }
 
+    public static Bookmark wifiBookmarkOf(ResultSet rs) throws SQLException {
+        Bookmark bookmark = new Bookmark();
+        bookmark.id = rs.getLong("b_id");
+        bookmark.name = rs.getString("b_name");
+        bookmark.order = rs.getInt("b_order_num");
+        return bookmark;
+    }
+
     public static Bookmark of(ResultSet rs) throws SQLException {
         Bookmark bookmark = new Bookmark();
         bookmark.id = rs.getLong(BookmarkConstants.FIELD_ID);

@@ -13,13 +13,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BookmarkSaveServiceImplTest {
 
-    private static final BookmarkSaveService bookmarkSaveService;
-    private static final BookmarkRepository bookmarkRepository;
-    static {
-        bookmarkSaveService = InstanceFactory.BookmarkSaveServiceFactory.getInstance();
-        bookmarkRepository = InstanceFactory.BookmarkRepositoryFactory.getInstance();
-    }
-
+    private final BookmarkSaveService bookmarkSaveService = InstanceFactory.BookmarkSaveServiceFactory.getInstance();
+    private final BookmarkRepository bookmarkRepository = InstanceFactory.BookmarkRepositoryFactory.getInstance();
 
     @Test
     void test_saveBookmark() {
@@ -31,6 +26,21 @@ class BookmarkSaveServiceImplTest {
         Assertions.assertFalse(bookmarks.isEmpty());
 
         bookmarks.forEach(bookmarkRepository::delete);
+    }
+
+    @Test
+    void test_save_five_bookmark() {
+        BookmarkSaveRequestDto request1 = BookmarkSaveRequestDto.of("북마크 테스트1", 1);
+        BookmarkSaveRequestDto request2 = BookmarkSaveRequestDto.of("북마크 테스트2", 3);
+        BookmarkSaveRequestDto request3 = BookmarkSaveRequestDto.of("북마크 테스트3", 4);
+        BookmarkSaveRequestDto request4 = BookmarkSaveRequestDto.of("북마크 테스트4", 2);
+        BookmarkSaveRequestDto request5 = BookmarkSaveRequestDto.of("북마크 테스트5", 5);
+
+        bookmarkSaveService.saveBookmark(request1);
+        bookmarkSaveService.saveBookmark(request2);
+        bookmarkSaveService.saveBookmark(request3);
+        bookmarkSaveService.saveBookmark(request4);
+        bookmarkSaveService.saveBookmark(request5);
     }
 
 }

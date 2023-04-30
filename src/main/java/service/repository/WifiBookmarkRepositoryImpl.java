@@ -2,6 +2,8 @@ package service.repository;
 
 import global.config.InstanceFactory;
 import global.constants.SQLConstants;
+import service.entity.Bookmark;
+import service.entity.Wifi;
 import service.entity.WifiBookmark;
 import service.repository.base.BaseRepository;
 import service.repository.base.ConnectionPool;
@@ -37,8 +39,8 @@ public class WifiBookmarkRepositoryImpl extends BaseRepository<WifiBookmark, Lon
         try {
             preparedStatement = getTxConnection().prepareStatement(query);
             super.executeUpdate(preparedStatement,
-                    wifiBookmark.getWifiId(),
-                    wifiBookmark.getBookmarkId(),
+                    wifiBookmark.getWifi().getId(),
+                    wifiBookmark.getBookmark().getId(),
                     wifiBookmark.getCreatedAt().toString());
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -54,7 +56,7 @@ public class WifiBookmarkRepositoryImpl extends BaseRepository<WifiBookmark, Lon
 
     @Override
     public List<WifiBookmark> findAll() {
-        String query = SQLConstants.WIFI_BOOKMARK_TABLE.SELECT_ALL;
+        String query = SQLConstants.WIFI_BOOKMARK_TABLE.SELECT_ALL_JOIN_WIFI_JOIN_BOOKMARK;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         try {
@@ -63,6 +65,13 @@ public class WifiBookmarkRepositoryImpl extends BaseRepository<WifiBookmark, Lon
             List<WifiBookmark> wifiBookmarks = new ArrayList<>();
             while(resultSet.next()) {
                 WifiBookmark wifiBookmark = WifiBookmark.of(resultSet);
+
+                Wifi wifi = Wifi.wifiBookmarkOf(resultSet);
+                wifiBookmark.associate(wifi);
+
+                Bookmark bookmark = Bookmark.wifiBookmarkOf(resultSet);
+                wifiBookmark.associate(bookmark);
+
                 wifiBookmarks.add(wifiBookmark);
             }
             return wifiBookmarks;

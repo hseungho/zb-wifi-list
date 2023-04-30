@@ -2,12 +2,10 @@ package service.applicationservice;
 
 import global.config.InstanceFactory;
 import org.junit.jupiter.api.Test;
-import service.entity.WifiBookmark;
 import service.repository.WifiBookmarkRepository;
 
+import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class WifiBookmarkSaveServiceImplTest {
 
@@ -20,9 +18,26 @@ class WifiBookmarkSaveServiceImplTest {
         Long bookmarkId = 1L;
 
         wifiBookmarkSaveService.saveWifiBookmark(wifiId, bookmarkId);
-
-        List<WifiBookmark> wifiBookmarks = wifiBookmarkRepository.findAll();
-        System.out.println(wifiBookmarks);
     }
 
+    @Test
+    void test_save_five_wifiBookmark() {
+        List<String> wifiIds = new ArrayList<>();
+        wifiIds.add("---EP000001");
+        wifiIds.add("---EP000003");
+        wifiIds.add("---EP000004");
+        wifiIds.add("---EP000008");
+        wifiIds.add("---EP000013");
+
+        List<Long> bookmarkIds = new ArrayList<>();
+        bookmarkIds.add(1L);
+        bookmarkIds.add(2L);
+        bookmarkIds.add(3L);
+        bookmarkIds.add(4L);
+        bookmarkIds.add(5L);
+
+        for (int i = 0; i < 5; i++) {
+            wifiBookmarkSaveService.saveWifiBookmark(wifiIds.get(i), bookmarkIds.get(i));
+        }
+    }
 }

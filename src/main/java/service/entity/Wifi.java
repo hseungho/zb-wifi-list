@@ -81,6 +81,13 @@ public class Wifi {
         return wifi;
     }
 
+    public static Wifi wifiBookmarkOf(ResultSet rs) throws SQLException {
+        Wifi wifi = new Wifi();
+        wifi.id = rs.getString("w_id");
+        wifi.name = rs.getString("w_name");
+        return wifi;
+    }
+
     public Map<String, Object> getFieldMap() {
         Map<String, Object> map = new HashMap<>();
         map.put(WifiConstants.FIELD_ID, id);

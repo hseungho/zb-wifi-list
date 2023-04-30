@@ -1,6 +1,7 @@
 package service.repository;
 
 import global.config.DBConfig;
+import global.constants.WifiConstants;
 import service.entity.Wifi;
 import service.repository.base.Repository;
 
@@ -50,22 +51,22 @@ public class WifiRepositoryImpl extends Repository implements WifiRepository {
 
             for (int i = 0; i < wifiMapList.size(); i++) {
                 Map<String, Object> wifiMap = wifiMapList.get(i);
-                preparedStatement.setObject(1, wifiMap.get("id"));
-                preparedStatement.setObject(2, wifiMap.get("district"));
-                preparedStatement.setObject(3, wifiMap.get("name"));
-                preparedStatement.setObject(4, wifiMap.get("address1"));
-                preparedStatement.setObject(5, wifiMap.get("address2"));
-                preparedStatement.setObject(6, wifiMap.get("instl_floor"));
-                preparedStatement.setObject(7, wifiMap.get("instl_type"));
-                preparedStatement.setObject(8, wifiMap.get("instl_org"));
-                preparedStatement.setObject(9, wifiMap.get("service_class"));
-                preparedStatement.setObject(10, wifiMap.get("net_type"));
-                preparedStatement.setObject(11, wifiMap.get("instl_year"));
-                preparedStatement.setObject(12, wifiMap.get("in_out_type"));
-                preparedStatement.setObject(13, wifiMap.get("connect_env"));
-                preparedStatement.setObject(14, wifiMap.get("lat"));
-                preparedStatement.setObject(15, wifiMap.get("lnt"));
-                preparedStatement.setObject(16, wifiMap.get("worked_at"));
+                preparedStatement.setObject(1, wifiMap.get(WifiConstants.FIELD_ID));
+                preparedStatement.setObject(2, wifiMap.get(WifiConstants.FIELD_DISTRICT));
+                preparedStatement.setObject(3, wifiMap.get(WifiConstants.FIELD_NAME));
+                preparedStatement.setObject(4, wifiMap.get(WifiConstants.FIELD_ADDRESS1));
+                preparedStatement.setObject(5, wifiMap.get(WifiConstants.FIELD_ADDRESS2));
+                preparedStatement.setObject(6, wifiMap.get(WifiConstants.FIELD_INSTL_FLOOR));
+                preparedStatement.setObject(7, wifiMap.get(WifiConstants.FIELD_INSTL_TYPE));
+                preparedStatement.setObject(8, wifiMap.get(WifiConstants.FIELD_INSTL_ORG));
+                preparedStatement.setObject(9, wifiMap.get(WifiConstants.FIELD_SERVICE_CLASS));
+                preparedStatement.setObject(10, wifiMap.get(WifiConstants.FIELD_NET_TYPE));
+                preparedStatement.setObject(11, wifiMap.get(WifiConstants.FIELD_INSTL_YEAR));
+                preparedStatement.setObject(12, wifiMap.get(WifiConstants.FIELD_IN_OUT_TYPE));
+                preparedStatement.setObject(13, wifiMap.get(WifiConstants.FIELD_CONNECT_ENV));
+                preparedStatement.setObject(14, wifiMap.get(WifiConstants.FIELD_LAT));
+                preparedStatement.setObject(15, wifiMap.get(WifiConstants.FIELD_LNT));
+                preparedStatement.setObject(16, wifiMap.get(WifiConstants.FIELD_WORKED_AT));
 
                 preparedStatement.addBatch();
 

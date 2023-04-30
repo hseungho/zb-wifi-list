@@ -9,4 +9,5 @@ import java.util.Map;
 public interface WifiRepository extends CrudRepository<Wifi> {
 
     void saveAll(List<Map<String, Object>> mapList);
+
 }

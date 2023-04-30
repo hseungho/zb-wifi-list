@@ -1,6 +1,7 @@
 package service.entity;
 
 import global.adapter.openapi.dto.OpenApiResponseDto;
+import global.constants.WifiConstants;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -27,10 +28,17 @@ public class Wifi {
     private Integer instlYear;
     private String inOutType;
     private String connectEnv;
-    private Double lat;
-    private Double lnt;
+    private Double lat; // 위도, x좌표
+    private Double lnt; // 경도, y좌표
     private LocalDateTime workedAt;
 
+    public Double calcDistance(Double oLat, Double oLnt) {
+        return Math.sqrt(Math.pow(oLat - this.lat, 2) + Math.pow(oLnt - this.lnt, 2));
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////
+    // Entity Factory
     public static Wifi of(OpenApiResponseDto.TbPublicWifiInfo.WifiInfoDto dto) {
         Wifi wifi = new Wifi();
         wifi.id = dto.getX_SWIFI_MGR_NO();
@@ -54,33 +62,44 @@ public class Wifi {
 
     public static Wifi of(ResultSet rs) throws SQLException {
         Wifi wifi = new Wifi();
-        wifi.id = rs.getString("id");
-        wifi.district = rs.getString("district");
-        wifi.name = rs.getString("name");
-        wifi.address1 = rs.getString("address1");
-        wifi.address2 = rs.getString("address2");
-        wifi.instlFloor = rs.getString("instl_floor");
+        wifi.id = rs.getString(WifiConstants.FIELD_ID);
+        wifi.district = rs.getString(WifiConstants.FIELD_DISTRICT);
+        wifi.name = rs.getString(WifiConstants.FIELD_NAME);
+        wifi.address1 = rs.getString(WifiConstants.FIELD_ADDRESS1);
+        wifi.address2 = rs.getString(WifiConstants.FIELD_ADDRESS2);
+        wifi.instlFloor = rs.getString(WifiConstants.FIELD_INSTL_FLOOR);
+        wifi.instlType = rs.getString(WifiConstants.FIELD_INSTL_TYPE);
+        wifi.instlOrg = rs.getString(WifiConstants.FIELD_INSTL_ORG);
+        wifi.serviceClass = rs.getString(WifiConstants.FIELD_SERVICE_CLASS);
+        wifi.netType = rs.getString(WifiConstants.FIELD_NET_TYPE);
+        wifi.instlYear = rs.getInt(WifiConstants.FIELD_INSTL_YEAR);
+        wifi.inOutType = rs.getString(WifiConstants.FIELD_IN_OUT_TYPE);
+        wifi.connectEnv = rs.getString(WifiConstants.FIELD_CONNECT_ENV);
+        wifi.lat = rs.getDouble(WifiConstants.FIELD_LAT);
+        wifi.lnt = rs.getDouble(WifiConstants.FIELD_LNT);
+        wifi.workedAt = LocalDateTime.parse(rs.getString(WifiConstants.FIELD_WORKED_AT));
         return wifi;
     }
 
     public Map<String, Object> getFieldMap() {
         Map<String, Object> map = new HashMap<>();
-        map.put("id", id);
-        map.put("district", district);
-        map.put("name", name);
-        map.put("address1", address1);
-        map.put("address2", address2);
-        map.put("instl_floor", instlFloor);
-        map.put("instl_type", instlType);
-        map.put("instl_org", instlOrg);
-        map.put("service_class", serviceClass);
-        map.put("net_type", netType);
-        map.put("instl_year", instlYear);
-        map.put("in_out_type", inOutType);
-        map.put("connect_env", connectEnv);
-        map.put("lat", lat);
-        map.put("lnt", lnt);
-        map.put("worked_at", workedAt.toString());
+        map.put(WifiConstants.FIELD_ID, id);
+        map.put(WifiConstants.FIELD_DISTRICT, district);
+        map.put(WifiConstants.FIELD_NAME, name);
+        map.put(WifiConstants.FIELD_ADDRESS1, address1);
+        map.put(WifiConstants.FIELD_ADDRESS2, address2);
+        map.put(WifiConstants.FIELD_INSTL_FLOOR, instlFloor);
+        map.put(WifiConstants.FIELD_INSTL_TYPE, instlType);
+        map.put(WifiConstants.FIELD_INSTL_ORG, instlOrg);
+        map.put(WifiConstants.FIELD_SERVICE_CLASS, serviceClass);
+        map.put(WifiConstants.FIELD_NET_TYPE, netType);
+        map.put(WifiConstants.FIELD_INSTL_YEAR, instlYear);
+        map.put(WifiConstants.FIELD_IN_OUT_TYPE, inOutType);
+        map.put(WifiConstants.FIELD_CONNECT_ENV, connectEnv);
+        map.put(WifiConstants.FIELD_LAT, lat);
+        map.put(WifiConstants.FIELD_LNT, lnt);
+        map.put(WifiConstants.FIELD_WORKED_AT, workedAt.toString());
         return map;
     }
+
 }

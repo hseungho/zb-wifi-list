@@ -1,6 +1,8 @@
 package service.applicationservice;
 
 import global.adapter.openapi.OpenApiWifiAdapter;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import service.entity.Wifi;
 import service.repository.WifiRepository;
 import service.repository.WifiRepositoryImpl;
@@ -9,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class WifiSaveServiceImpl implements WifiSaveService {
 
     public static WifiSaveService getInstance() {

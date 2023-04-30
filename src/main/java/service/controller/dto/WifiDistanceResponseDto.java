@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @ToString
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class WifiDistanceDto {
+public class WifiDistanceResponseDto {
 
     private Double distance;
     private String id;
@@ -29,14 +29,14 @@ public class WifiDistanceDto {
     private Double lnt;
     private LocalDateTime workedAt;
 
-    public static WifiDistanceDto of(Double distance, Wifi wifi) {
-        WifiDistanceDto dto = new WifiDistanceDto();
+    public static WifiDistanceResponseDto of(Double distance, Wifi wifi) {
+        WifiDistanceResponseDto dto = new WifiDistanceResponseDto();
         dto.distance = distance;
         dto.entityOf(wifi);
         return dto;
     }
 
-    private WifiDistanceDto entityOf(Wifi entity) {
+    private WifiDistanceResponseDto entityOf(Wifi entity) {
         this.id = entity.getId();
         this.district = entity.getDistrict();
         this.name = entity.getName();

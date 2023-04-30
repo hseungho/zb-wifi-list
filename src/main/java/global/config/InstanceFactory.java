@@ -38,6 +38,16 @@ public class InstanceFactory {
         }
     }
 
+
+    public static class HistoryFindServiceFactory {
+        public static HistoryFindService getInstance() {
+            return LazyHolder.INSTANCE;
+        }
+        private static class LazyHolder {
+            private static final HistoryFindService INSTANCE = new HistoryFindServiceImpl();
+        }
+    }
+
     //////////////////////////////////////////////////////////////////////////////
     // Repository Factory
     public static class WifiRepositoryFactory {

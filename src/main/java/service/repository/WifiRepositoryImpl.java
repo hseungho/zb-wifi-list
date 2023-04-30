@@ -1,42 +1,104 @@
 package service.repository;
 
 import global.config.DBConfig;
+import global.config.InstanceFactory;
 import global.constants.SQLConstants;
 import global.constants.WifiConstants;
 import service.entity.Wifi;
-import service.repository.base.Repository;
+import service.repository.base.BaseRepository;
+import service.repository.base.ConnectionPool;
+import service.repository.base.transaction.TransactionalProxy;
 
+import java.lang.reflect.Proxy;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
-public class WifiRepositoryImpl extends Repository implements WifiRepository {
+public class WifiRepositoryImpl extends BaseRepository<Wifi, String> implements WifiRepository {
 
-    public WifiRepositoryImpl() {
-        super.connect("Wifi");
-        super.initEachTable(SQLConstants.WIFI_TABLE.DDL);
+    public WifiRepositoryImpl(ConnectionPool connectionPool) {
+        super(connectionPool);
+        super.DDL(SQLConstants.WIFI_TABLE.DDL);
+    }
+
+    private Connection getTxConnection() {
+        return ((TransactionalProxy) Proxy.getInvocationHandler(InstanceFactory.WifiRepositoryFactory.getInstance())).getConnection();
     }
 
     @Override
-    public void save(Wifi wifi) {
-        String prepareQuery = SQLConstants.WIFI_TABLE.INSERT_BASIC_FORMAT;
-
-        String query = String.format(prepareQuery,
-                wifi.getId(), wifi.getDistrict(), wifi.getName(), wifi.getAddress1(), wifi.getAddress2(),
-                wifi.getInstlFloor(), wifi.getInstlType(), wifi.getInstlOrg(), wifi.getServiceClass(),
-                wifi.getNetType(), wifi.getInstlYear(), wifi.getInOutType(), wifi.getConnectEnv(),
-                wifi.getLat(), wifi.getLnt(), wifi.getWorkedAt());
-
-        super.save(query);
-    }
-
-    public void saveAll(List<Map<String, Object>> wifiMapList) {
-        String query = SQLConstants.WIFI_TABLE.INSERT_BASIC_STATEMENT;
+    public Optional<Wifi> findById(String id) {
+        String query = SQLConstants.WIFI_TABLE.SELECT_WHERE_ID;
 
         PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
         try {
-            preparedStatement = connect.prepareStatement(query);
+            preparedStatement = getTxConnection().prepareStatement(query);
+            preparedStatement.setObject(1, id);
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                Wifi wifi = Wifi.of(resultSet);
+                return Optional.of(wifi);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+
+        } finally {
+            close(preparedStatement, resultSet);
+        }
+        return Optional.empty();
+    }
+
+    @Override
+    public List<Wifi> findAll() {
+        String query = SQLConstants.WIFI_TABLE.SELECT_ALL;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            preparedStatement = getTxConnection().prepareStatement(query);
+            resultSet = preparedStatement.executeQuery();
+            List<Wifi> wifiList = new ArrayList<>();
+            while (resultSet.next()) {
+                Wifi wifi = Wifi.of(resultSet);
+                wifiList.add(wifi);
+            }
+            return wifiList;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+
+        } finally {
+            close(preparedStatement, resultSet);
+        }
+    }
+
+    @Override
+    public void save(Wifi entity) {
+
+    }
+
+    @Override
+    public void update(Wifi entity) {
+
+    }
+
+    @Override
+    public void delete(Wifi entity) {
+
+    }
+
+    @Override
+    public void saveAll(List<Map<String, Object>> wifiMapList) {
+        Connection connection = getTxConnection();
+
+        String query = SQLConstants.WIFI_TABLE.INSERT_BASIC_STATEMENT;
+        PreparedStatement preparedStatement = null;
+        try {
+
+            preparedStatement = connection.prepareStatement(query);
 
             for (int i = 0; i < wifiMapList.size(); i++) {
                 Map<String, Object> wifiMap = wifiMapList.get(i);
@@ -62,71 +124,18 @@ public class WifiRepositoryImpl extends Repository implements WifiRepository {
                 if (i % DBConfig.OPT_BATCH_SIZE == 0) {
                     preparedStatement.executeBatch();
                     preparedStatement.clearBatch();
-                    connect.commit();
+                    connection.commit();
                     preparedStatement.clearParameters();
                 }
             }
 
             preparedStatement.executeBatch();
-            connect.commit();
+            connection.commit();
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
-            if (preparedStatement != null) {
-                try {
-                    preparedStatement.close();
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-            }
+            close(preparedStatement, null);
         }
-    }
-
-    @Override
-    public Optional<Wifi> findById(String id) {
-        String query = SQLConstants.WIFI_TABLE.SELECT_WHERE_ID;
-
-        ResultSet rs = super.findQuery(query, id);
-
-        try {
-            if (rs.next()) {
-                Wifi wifi = Wifi.of(rs);
-                return Optional.of(wifi);
-            }
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        return Optional.empty();
-    }
-
-    @Override
-    public List<Wifi> findAll() {
-        String query = SQLConstants.WIFI_TABLE.SELECT_ALL;
-
-        ResultSet rs = super.findQuery(query);
-
-        List<Wifi> wifiList = new ArrayList<>();
-        try {
-            while (rs.next()) {
-                Wifi wifi = Wifi.of(rs);
-                wifiList.add(wifi);
-                if (!rs.next()) break;
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return wifiList;
-    }
-
-    @Override
-    public boolean updateById(String id) {
-        return false;
-    }
-
-    @Override
-    public boolean deleteById(String id) {
-        return false;
     }
 }

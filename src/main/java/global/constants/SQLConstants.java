@@ -41,12 +41,29 @@ public class SQLConstants {
 
     public static class BOOKMARK_TABLE {
         public static final String DDL =
-                "CREATE TABLE IF NOT EXISTS bookmark " +
-                        "(id integer PRIMARY KEY AUTOINCREMENT, name text, order_num integer, created_at text, updated_at text);";
+                "CREATE TABLE IF NOT EXISTS bookmark (" +
+                        "id integer PRIMARY KEY AUTOINCREMENT, name text, order_num integer, created_at text, updated_at text);";
 
         public static final String INSERT_BASIC_STATEMENT = "INSERT INTO BOOKMARK (name, order_num, created_at) VALUES (?, ?, ?);";
         public static final String SELECT_ALL = "SELECT * FROM BOOKMARK;";
+        public static final String SELECT_WHERE_ID = "SELECT * FROM BOOKMARK WHERE id = ?;";
         public static final String DELETE_WHERE_ID = "DELETE FROM BOOKMARK WHERE id = ?;";
+
+    }
+
+    public static class WIFI_BOOKMARK_TABLE {
+        public static final String DDL =
+                "CREATE TABLE IF NOT EXISTS wifi_bookmark (" +
+                        "id integer PRIMARY KEY AUTOINCREMENT, " +
+                        "wifi_id text, " +
+                        "bookmark_id integer, " +
+                        "created_at text," +
+                        "FOREIGN KEY (wifi_id) REFERENCES wifi(id)," +
+                        "FOREIGN KEY (bookmark_id) REFERENCES bookmark(id)" +
+                        ");";
+
+        public static final String INSERT_BASIC_STATEMENT = "INSERT INTO WIFI_BOOKMARK (wifi_id, bookmark_id, created_at) VALUES (?, ?, ?);";
+        public static final String SELECT_ALL = "SELECT * FROM WIFI_BOOKMARK;";
 
     }
 

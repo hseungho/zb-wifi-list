@@ -1,9 +1,14 @@
 package service.repository;
 
+import global.config.InstanceFactory;
 import global.constants.SQLConstants;
 import service.entity.History;
-import service.repository.base.Repository;
+import service.repository.base.BaseRepository;
+import service.repository.base.ConnectionPool;
+import service.repository.base.transaction.TransactionalProxy;
 
+import java.lang.reflect.Proxy;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,43 +16,55 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class HistoryRepositoryImpl extends Repository implements HistoryRepository {
+public class HistoryRepositoryImpl extends BaseRepository<History, Long> implements HistoryRepository {
 
-    public HistoryRepositoryImpl() {
-        super.connect("History");
-        super.initEachTable(SQLConstants.HISTORY_TABLE.DDL);
+    public HistoryRepositoryImpl(ConnectionPool connectionPool) {
+        super(connectionPool);
+        this.DDL(SQLConstants.HISTORY_TABLE.DDL);
+    }
+
+    private Connection getTxConnection() {
+        return ((TransactionalProxy) Proxy.getInvocationHandler(InstanceFactory.HistoryRepositoryFactory.getInstance())).getConnection();
     }
 
     @Override
     public void save(History history) {
         String query = SQLConstants.HISTORY_TABLE.INSERT_BASIC_STATEMENT;
-
         PreparedStatement preparedStatement = null;
         try {
-            preparedStatement = connect.prepareStatement(query);
-
+            preparedStatement = getTxConnection().prepareStatement(query);
             preparedStatement.setObject(1, history.getLat());
             preparedStatement.setObject(2, history.getLnt());
             preparedStatement.setObject(3, history.getCreatedAt().toString());
-
-            super.executeUpdate(preparedStatement);
-
-            ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-            if (generatedKeys.next()) {
-                long id = generatedKeys.getLong(1);
-                history.setId(id);
-            }
-
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
-            if (preparedStatement != null) {
-                try {
-                    preparedStatement.close();
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-            }
+            close(preparedStatement, null);
+        }
+    }
+
+    @Override
+    public void update(History entity) {
+
+    }
+
+    @Override
+    public void delete(History entity) {
+        deleteById(entity.getId());
+    }
+
+    private void deleteById(Long id) {
+        String query = SQLConstants.HISTORY_TABLE.DELETE_WHERE_ID;
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = getTxConnection().prepareStatement(query);
+            preparedStatement.setObject(1, id);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            close(preparedStatement, null);
         }
     }
 
@@ -60,30 +77,23 @@ public class HistoryRepositoryImpl extends Repository implements HistoryReposito
     @Override
     public List<History> findAll() {
         String query = SQLConstants.HISTORY_TABLE.SELECT_ALL;
-
-        ResultSet rs = super.findQuery(query);
-
-        List<History> historyList = new ArrayList<>();
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
         try {
-            while (rs.next()) {
-                History history = History.of(rs);
+            preparedStatement = getTxConnection().prepareStatement(query);
+            resultSet = preparedStatement.executeQuery();
+            List<History> historyList = new ArrayList<>();
+            while (resultSet.next()) {
+                History history = History.of(resultSet);
                 historyList.add(history);
-                if (!rs.next()) break;
             }
+            return historyList;
         } catch (SQLException e) {
             throw new RuntimeException(e);
+
+        } finally {
+            close(preparedStatement, resultSet);
         }
-        return historyList;
     }
 
-    @Override
-    public boolean updateById(Long id) {
-        return false;
-    }
-
-    @Override
-    public boolean deleteById(Long id) {
-        String query = SQLConstants.HISTORY_TABLE.DELETE_WHERE_ID;
-        return super.deleteById(query, id);
-    }
 }

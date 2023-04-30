@@ -30,7 +30,7 @@ class BookmarkSaveServiceImplTest {
         List<Bookmark> bookmarks = bookmarkRepository.findAll();
         Assertions.assertFalse(bookmarks.isEmpty());
 
-        bookmarks.forEach(b -> bookmarkRepository.deleteById(b.getId()));
+//        bookmarks.forEach(b -> bookmarkRepository.deleteById(b.getId()));
     }
 
 }

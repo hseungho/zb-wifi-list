@@ -29,6 +29,6 @@ class HistorySaveServiceImplTest {
         List<History> histories = historyRepository.findAll();
         Assertions.assertFalse(histories.isEmpty());
 
-        histories.forEach(h -> historyRepository.deleteById(h.getId()));
+//        histories.forEach(h -> historyRepository.de(h.getId()));
     }
 }

@@ -4,15 +4,17 @@ import global.config.InstanceFactory;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import service.controller.dto.WifiDistanceResponseDto;
+import service.entity.History;
+import service.repository.HistoryRepository;
+import service.repository.WifiRepository;
 
 import java.util.List;
 
 class WifiFindServiceImplTest {
 
-    private static final WifiFindService wifiFindService;
-    static {
-        wifiFindService = InstanceFactory.WifiFindServiceFactory.getInstance();
-    }
+    private final WifiFindService wifiFindService = InstanceFactory.WifiFindServiceFactory.getInstance();
+    private final WifiRepository wifiRepository = InstanceFactory.WifiRepositoryFactory.getInstance();
+    private final HistoryRepository historyRepository = InstanceFactory.HistoryRepositoryFactory.getInstance();
 
     @Test
     void test_getDistanceWifiList() {
@@ -20,9 +22,14 @@ class WifiFindServiceImplTest {
         Double lnt = 126.8998666;
         List<WifiDistanceResponseDto> dtos = wifiFindService.getDistanceWifiList(lat, lnt);
 
-        for (int i = 0; i < 20; i++) {
-            System.out.println(dtos.get(i));
-        }
+        Assertions.assertNotNull(dtos);
+        Assertions.assertFalse(dtos.isEmpty());
+
+        List<History> histories = historyRepository.findAll();
+        Assertions.assertNotNull(histories);
+        Assertions.assertFalse(histories.isEmpty());
+
+        histories.forEach(historyRepository::delete);
     }
 
     @Test

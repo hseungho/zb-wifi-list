@@ -5,8 +5,11 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import service.controller.dto.HistorySaveRequestDto;
 import service.controller.dto.WifiDistanceResponseDto;
+import service.entity.History;
 import service.entity.Wifi;
+import service.repository.HistoryRepository;
 import service.repository.WifiRepository;
+import service.repository.base.transaction.Transactional;
 
 import java.util.Comparator;
 import java.util.List;
@@ -16,14 +19,14 @@ import java.util.stream.Collectors;
 public class WifiFindServiceImpl implements WifiFindService {
 
     private final WifiRepository wifiRepository;
-    private final HistorySaveService historySaveService;
-
+    private final HistoryRepository historyRepository;
     public WifiFindServiceImpl() {
         wifiRepository = InstanceFactory.WifiRepositoryFactory.getInstance();
-        historySaveService = InstanceFactory.HistorySaveServiceFactory.getInstance();
+        historyRepository = InstanceFactory.HistoryRepositoryFactory.getInstance();
     }
 
     @Override
+    @Transactional
     public List<WifiDistanceResponseDto> getDistanceWifiList(Double lat, Double lnt) {
         List<Wifi> wifis = wifiRepository.findAll();
 
@@ -38,7 +41,7 @@ public class WifiFindServiceImpl implements WifiFindService {
                 .sorted(Comparator.comparing(WifiDistanceResponseDto::getDistance))
                 .collect(Collectors.toList());
 
-        historySaveService.saveHistory(new HistorySaveRequestDto(lat, lnt));
+        historyRepository.save(History.of(new HistorySaveRequestDto(lat, lnt)));
 
         return distanceDtos;
     }

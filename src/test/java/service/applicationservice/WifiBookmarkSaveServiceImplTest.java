@@ -2,15 +2,17 @@ package service.applicationservice;
 
 import global.config.InstanceFactory;
 import org.junit.jupiter.api.Test;
+import service.entity.WifiBookmark;
+import service.repository.WifiBookmarkRepository;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class WifiBookmarkSaveServiceImplTest {
 
-    private static final WifiBookmarkSaveService wifiBookmarkSaveService;
-    static {
-        wifiBookmarkSaveService = InstanceFactory.WifiBookmarkSaveServiceFactory.getInstance();
-    }
+    private final WifiBookmarkSaveService wifiBookmarkSaveService = InstanceFactory.WifiBookmarkSaveServiceFactory.getInstance();
+    private final WifiBookmarkRepository wifiBookmarkRepository = InstanceFactory.WifiBookmarkRepositoryFactory.getInstance();
 
     @Test
     void test_saveWifiBookmark() {
@@ -19,6 +21,8 @@ class WifiBookmarkSaveServiceImplTest {
 
         wifiBookmarkSaveService.saveWifiBookmark(wifiId, bookmarkId);
 
+        List<WifiBookmark> wifiBookmarks = wifiBookmarkRepository.findAll();
+        System.out.println(wifiBookmarks);
     }
 
 }

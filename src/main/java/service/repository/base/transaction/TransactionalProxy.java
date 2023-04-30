@@ -23,6 +23,10 @@ public class TransactionalProxy implements InvocationHandler {
         return this.connection;
     }
 
+    public Connection getConnection() {
+        return this.connection;
+    }
+
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         Connection connection = null;
@@ -47,8 +51,5 @@ public class TransactionalProxy implements InvocationHandler {
         }
     }
 
-    public Connection getConnection() {
-        return this.connection;
-    }
 }
 

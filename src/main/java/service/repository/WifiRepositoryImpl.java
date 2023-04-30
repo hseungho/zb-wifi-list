@@ -26,27 +26,30 @@ public class WifiRepositoryImpl extends BaseRepository<Wifi, String> implements 
         super.DDL(SQLConstants.WIFI_TABLE.DDL);
     }
 
-    private Connection getTxConnection() {
+    @Override
+    protected Connection getTxConnection() {
         return ((TransactionalProxy) Proxy.getInvocationHandler(InstanceFactory.WifiRepositoryFactory.getInstance())).getConnection();
+    }
+
+    @Override
+    public void save(Wifi entity) {
+
     }
 
     @Override
     public Optional<Wifi> findById(String id) {
         String query = SQLConstants.WIFI_TABLE.SELECT_WHERE_ID;
-
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         try {
             preparedStatement = getTxConnection().prepareStatement(query);
-            preparedStatement.setObject(1, id);
-            resultSet = preparedStatement.executeQuery();
+            resultSet = super.executeQuery(preparedStatement, id);
             if (resultSet.next()) {
                 Wifi wifi = Wifi.of(resultSet);
                 return Optional.of(wifi);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
-
         } finally {
             close(preparedStatement, resultSet);
         }
@@ -60,7 +63,7 @@ public class WifiRepositoryImpl extends BaseRepository<Wifi, String> implements 
         ResultSet resultSet = null;
         try {
             preparedStatement = getTxConnection().prepareStatement(query);
-            resultSet = preparedStatement.executeQuery();
+            resultSet = super.executeQuery(preparedStatement);
             List<Wifi> wifiList = new ArrayList<>();
             while (resultSet.next()) {
                 Wifi wifi = Wifi.of(resultSet);
@@ -69,15 +72,9 @@ public class WifiRepositoryImpl extends BaseRepository<Wifi, String> implements 
             return wifiList;
         } catch (SQLException e) {
             throw new RuntimeException(e);
-
         } finally {
             close(preparedStatement, resultSet);
         }
-    }
-
-    @Override
-    public void save(Wifi entity) {
-
     }
 
     @Override
@@ -135,6 +132,7 @@ public class WifiRepositoryImpl extends BaseRepository<Wifi, String> implements 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
+            returnConnection(connection);
             close(preparedStatement, null);
         }
     }

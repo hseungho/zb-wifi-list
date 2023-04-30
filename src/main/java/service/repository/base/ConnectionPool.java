@@ -33,7 +33,6 @@ public class ConnectionPool {
 
     public Connection getConnection() {
         try {
-            System.out.println("GET CONNECTION POOL");
             return getAvailableConnection();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -42,7 +41,6 @@ public class ConnectionPool {
 
     public void releaseConnection(Connection connection) {
         pool.add(connection);
-        System.out.println("RELEASE CONNECTION POOL");
     }
 
     private static boolean isDatabaseFileAvailable(Connection connection) {

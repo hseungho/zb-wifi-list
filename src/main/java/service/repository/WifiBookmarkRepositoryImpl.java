@@ -1,10 +1,18 @@
 package service.repository;
 
+import global.config.InstanceFactory;
 import global.constants.SQLConstants;
 import service.entity.WifiBookmark;
 import service.repository.base.BaseRepository;
 import service.repository.base.ConnectionPool;
+import service.repository.base.transaction.TransactionalProxy;
 
+import java.lang.reflect.Proxy;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,14 +26,25 @@ public class WifiBookmarkRepositoryImpl extends BaseRepository<WifiBookmark, Lon
     }
 
     @Override
+    protected Connection getTxConnection() {
+        return ((TransactionalProxy) Proxy.getInvocationHandler(InstanceFactory.WifiBookmarkRepositoryFactory.getInstance())).getConnection();
+    }
+
+    @Override
     public void save(WifiBookmark wifiBookmark) {
         String query = SQLConstants.WIFI_BOOKMARK_TABLE.INSERT_BASIC_STATEMENT;
-
-//        super.save(query,
-//                wifiBookmark.getWifiId(),
-//                wifiBookmark.getBookmarkId(),
-//                wifiBookmark.getCreatedAt().toString()
-//        );
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = getTxConnection().prepareStatement(query);
+            super.executeUpdate(preparedStatement,
+                    wifiBookmark.getWifiId(),
+                    wifiBookmark.getBookmarkId(),
+                    wifiBookmark.getCreatedAt().toString());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            close(preparedStatement);
+        }
     }
 
     @Override
@@ -35,7 +54,23 @@ public class WifiBookmarkRepositoryImpl extends BaseRepository<WifiBookmark, Lon
 
     @Override
     public List<WifiBookmark> findAll() {
-        return null;
+        String query = SQLConstants.WIFI_BOOKMARK_TABLE.SELECT_ALL;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            preparedStatement = getTxConnection().prepareStatement(query);
+            resultSet = executeQuery(preparedStatement);
+            List<WifiBookmark> wifiBookmarks = new ArrayList<>();
+            while(resultSet.next()) {
+                WifiBookmark wifiBookmark = WifiBookmark.of(resultSet);
+                wifiBookmarks.add(wifiBookmark);
+            }
+            return wifiBookmarks;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            close(preparedStatement, resultSet);
+        }
     }
 
     @Override

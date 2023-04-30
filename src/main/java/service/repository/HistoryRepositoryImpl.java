@@ -23,7 +23,8 @@ public class HistoryRepositoryImpl extends BaseRepository<History, Long> impleme
         this.DDL(SQLConstants.HISTORY_TABLE.DDL);
     }
 
-    private Connection getTxConnection() {
+    @Override
+    protected Connection getTxConnection() {
         return ((TransactionalProxy) Proxy.getInvocationHandler(InstanceFactory.HistoryRepositoryFactory.getInstance())).getConnection();
     }
 
@@ -33,14 +34,43 @@ public class HistoryRepositoryImpl extends BaseRepository<History, Long> impleme
         PreparedStatement preparedStatement = null;
         try {
             preparedStatement = getTxConnection().prepareStatement(query);
-            preparedStatement.setObject(1, history.getLat());
-            preparedStatement.setObject(2, history.getLnt());
-            preparedStatement.setObject(3, history.getCreatedAt().toString());
-            preparedStatement.executeUpdate();
+            super.executeUpdate(preparedStatement,
+                    history.getLat(),
+                    history.getLnt(),
+                    history.getCreatedAt().toString());
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
-            close(preparedStatement, null);
+            close(preparedStatement);
+        }
+    }
+
+    @Override
+    public Optional<History> findById(Long id) {
+
+        return null;
+    }
+
+    @Override
+    public List<History> findAll() {
+        String query = SQLConstants.HISTORY_TABLE.SELECT_ALL;
+
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            preparedStatement = getTxConnection().prepareStatement(query);
+            resultSet = super.executeQuery(preparedStatement);
+            List<History> historyList = new ArrayList<>();
+            while (resultSet.next()) {
+                History history = History.of(resultSet);
+                historyList.add(history);
+            }
+            return historyList;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            close(preparedStatement, resultSet);
         }
     }
 
@@ -59,40 +89,11 @@ public class HistoryRepositoryImpl extends BaseRepository<History, Long> impleme
         PreparedStatement preparedStatement = null;
         try {
             preparedStatement = getTxConnection().prepareStatement(query);
-            preparedStatement.setObject(1, id);
-            preparedStatement.executeUpdate();
+            super.executeUpdate(preparedStatement, id);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
-            close(preparedStatement, null);
-        }
-    }
-
-    @Override
-    public Optional<History> findById(Long id) {
-
-        return null;
-    }
-
-    @Override
-    public List<History> findAll() {
-        String query = SQLConstants.HISTORY_TABLE.SELECT_ALL;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-        try {
-            preparedStatement = getTxConnection().prepareStatement(query);
-            resultSet = preparedStatement.executeQuery();
-            List<History> historyList = new ArrayList<>();
-            while (resultSet.next()) {
-                History history = History.of(resultSet);
-                historyList.add(history);
-            }
-            return historyList;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-
-        } finally {
-            close(preparedStatement, resultSet);
+            close(preparedStatement);
         }
     }
 

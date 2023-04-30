@@ -7,9 +7,21 @@ import java.time.LocalDateTime;
 @Getter
 public class WifiBookmark {
 
-    private String id;
+    private Long id;
     private String wifiId;
-    private String bookmarkId;
+    private Long bookmarkId;
     private LocalDateTime createdAt;
+
+    public WifiBookmark() {
+        this.createdAt = LocalDateTime.now();
+    }
+
+    public void associate(Wifi wifi) {
+        this.wifiId = wifi.getId();
+    }
+
+    public void associate(Bookmark bookmark) {
+        this.bookmarkId = bookmark.getId();
+    }
 
 }

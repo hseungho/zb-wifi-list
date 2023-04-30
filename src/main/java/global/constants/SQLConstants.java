@@ -39,4 +39,15 @@ public class SQLConstants {
         public static final String DELETE_WHERE_ID = "DELETE FROM HISTORY WHERE id = ?;";
     }
 
+    public static class BOOKMARK_TABLE {
+        public static final String DDL =
+                "CREATE TABLE IF NOT EXISTS bookmark " +
+                        "(id integer PRIMARY KEY AUTOINCREMENT, name text, order_num integer, created_at text, updated_at text);";
+
+        public static final String INSERT_BASIC_STATEMENT = "INSERT INTO BOOKMARK (name, order_num, created_at) VALUES (?, ?, ?);";
+        public static final String SELECT_ALL = "SELECT * FROM BOOKMARK;";
+        public static final String DELETE_WHERE_ID = "DELETE FROM BOOKMARK WHERE id = ?;";
+
+    }
+
 }

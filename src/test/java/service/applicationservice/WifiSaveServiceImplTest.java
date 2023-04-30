@@ -1,7 +1,6 @@
 package service.applicationservice;
 
 import global.config.InstanceFactory;
-import org.junit.jupiter.api.Test;
 
 class WifiSaveServiceImplTest {
 
@@ -10,7 +9,7 @@ class WifiSaveServiceImplTest {
         wifiSaveService = InstanceFactory.WifiSaveServiceFactory.getInstance();
     }
 
-    @Test
+//    @Test
     void test_getOpenApiWifiListAndSave() {
         wifiSaveService.getOpenApiWifiListAndSave();
     }

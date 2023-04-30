@@ -86,7 +86,7 @@ public class WifiRepositoryImpl extends Repository implements WifiRepository {
     public Optional<Wifi> findById(String id) {
         String query = SQLConstants.WIFI_TABLE.SELECT_WHERE_ID;
 
-        ResultSet rs = super.executeQuery(query, id);
+        ResultSet rs = super.findQuery(query, id);
 
         try {
             if (rs.next()) {
@@ -121,12 +121,12 @@ public class WifiRepositoryImpl extends Repository implements WifiRepository {
     }
 
     @Override
-    public boolean update(String id) {
+    public boolean updateById(String id) {
         return false;
     }
 
     @Override
-    public boolean delete(String id) {
+    public boolean deleteById(String id) {
         return false;
     }
 }

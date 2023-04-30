@@ -77,12 +77,12 @@ public class HistoryRepositoryImpl extends Repository implements HistoryReposito
     }
 
     @Override
-    public boolean update(Long id) {
+    public boolean updateById(Long id) {
         return false;
     }
 
     @Override
-    public boolean delete(Long id) {
+    public boolean deleteById(Long id) {
         String query = SQLConstants.HISTORY_TABLE.DELETE_WHERE_ID;
         return super.deleteById(query, id);
     }

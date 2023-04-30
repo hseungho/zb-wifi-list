@@ -8,7 +8,7 @@ public interface CrudRepository<E, ID> {
     void save(E e);
     Optional<E> findById(ID id);
     List<E> findAll();
-    boolean update(ID id);
-    boolean delete(ID id);
+    boolean updateById(ID id);
+    boolean deleteById(ID id);
 
 }

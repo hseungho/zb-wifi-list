@@ -1,6 +1,7 @@
 package service.applicationservice;
 
 import global.config.InstanceFactory;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import service.controller.dto.WifiDistanceResponseDto;
 
@@ -29,7 +30,8 @@ class WifiFindServiceImplTest {
         String id = "---EP000001";
 
         WifiDistanceResponseDto wifiInfo = wifiFindService.getWifiInfo(id);
-        System.out.println(wifiInfo);
+        Assertions.assertNotNull(wifiInfo);
+        Assertions.assertEquals(id, wifiInfo.getId());
     }
 
 }

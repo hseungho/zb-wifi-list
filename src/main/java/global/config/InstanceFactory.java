@@ -1,10 +1,7 @@
 package global.config;
 
 import service.applicationservice.*;
-import service.repository.HistoryRepository;
-import service.repository.HistoryRepositoryImpl;
-import service.repository.WifiRepository;
-import service.repository.WifiRepositoryImpl;
+import service.repository.*;
 
 public class InstanceFactory {
 
@@ -38,13 +35,22 @@ public class InstanceFactory {
         }
     }
 
-
     public static class HistoryFindServiceFactory {
         public static HistoryFindService getInstance() {
             return LazyHolder.INSTANCE;
         }
         private static class LazyHolder {
             private static final HistoryFindService INSTANCE = new HistoryFindServiceImpl();
+        }
+    }
+
+    public static class BookmarkSaveServiceFactory {
+        public static BookmarkSaveService getInstance() {
+            return LazyHolder.INSTANCE;
+        }
+
+        private static class LazyHolder {
+            private static final BookmarkSaveService INSTANCE = new BookmarkSaveServiceImpl();
         }
     }
 
@@ -65,6 +71,15 @@ public class InstanceFactory {
         }
         private static class LazyHolder {
             private static final HistoryRepository INSTANCE = new HistoryRepositoryImpl();
+        }
+    }
+
+    public static class BookmarkRepositoryFactory {
+        public static BookmarkRepository getInstance() {
+            return LazyHolder.INSTANCE;
+        }
+        private static class LazyHolder {
+            private static final BookmarkRepository INSTANCE = new BookmarkRepositoryImpl();
         }
     }
 

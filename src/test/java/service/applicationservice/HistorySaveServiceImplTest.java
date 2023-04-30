@@ -1,14 +1,13 @@
 package service.applicationservice;
 
 import global.config.InstanceFactory;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import service.controller.dto.HistorySaveRequestDto;
 import service.entity.History;
 import service.repository.HistoryRepository;
 
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class HistorySaveServiceImplTest {
 
@@ -28,8 +27,8 @@ class HistorySaveServiceImplTest {
         historySaveService.saveHistory(dto);
 
         List<History> histories = historyRepository.findAll();
-        System.out.println(histories);
+        Assertions.assertFalse(histories.isEmpty());
 
-        histories.forEach(h -> historyRepository.delete(h.getId()));
+        histories.forEach(h -> historyRepository.deleteById(h.getId()));
     }
 }

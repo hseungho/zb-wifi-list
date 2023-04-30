@@ -45,37 +45,46 @@ public class Repository {
         }
     }
 
-    public ResultSet findQuery(String query) {
+    protected void save(String query, Object... values) {
         try {
             PreparedStatement preparedStatement = connect.prepareStatement(query);
-            resultSet = executeQuery(preparedStatement);
+
+            for (int i = 1; i <= values.length; i++) {
+                preparedStatement.setObject(i, values[i-1]);
+            }
+
+            executeUpdate(preparedStatement);
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    protected ResultSet findQuery(String query) {
+        try {
+            PreparedStatement preparedStatement = connect.prepareStatement(query);
+            resultSet = findQuery(preparedStatement);
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return resultSet;
     }
 
-    public boolean update(String query) {
-        int resultRows = executeUpdate(query);
-        return resultRows > 0;
-    }
-
-    protected ResultSet executeQuery(String query, Object... conditions) {
-        PreparedStatement preparedStatement = null;
+    protected ResultSet findQuery(String query, Object... conditions) {
         try {
-            preparedStatement = connect.prepareStatement(query);
+            PreparedStatement preparedStatement = connect.prepareStatement(query);
 
             for (int i = 1; i <= conditions.length; i++) {
                 preparedStatement.setString(i, String.valueOf(conditions[i-1]));
             }
-            resultSet = executeQuery(preparedStatement);
+            resultSet = findQuery(preparedStatement);
             return resultSet;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    protected ResultSet executeQuery(PreparedStatement statement) {
+    private ResultSet findQuery(PreparedStatement statement) {
         try {
             ResultSet rs = statement.executeQuery();
             connect.commit();
@@ -84,6 +93,12 @@ public class Repository {
             throw new RuntimeException(e);
         }
     }
+
+    public boolean update(String query) {
+        int resultRows = executeUpdate(query);
+        return resultRows > 0;
+    }
+
 
     protected int executeUpdate(PreparedStatement statement) {
         try {
@@ -111,7 +126,7 @@ public class Repository {
         return resultRows > 0;
     }
 
-    public boolean deleteById(String query, Long id) {
+    public boolean deleteById(String query, Object id) {
         PreparedStatement preparedStatement = null;
 
         try {

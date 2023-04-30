@@ -1,5 +1,6 @@
 package service.applicationservice;
 
+import global.config.InstanceFactory;
 import org.junit.jupiter.api.Test;
 import service.controller.dto.WifiDistanceDto;
 
@@ -11,7 +12,7 @@ class WifiFindServiceImplTest {
 
     private static final WifiFindService wifiFindService;
     static {
-        wifiFindService = WifiFindServiceImpl.getInstance();
+        wifiFindService = InstanceFactory.WifiFindServiceFactory.getInstance();
     }
 
     @Test

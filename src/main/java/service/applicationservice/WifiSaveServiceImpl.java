@@ -1,11 +1,11 @@
 package service.applicationservice;
 
 import global.adapter.openapi.OpenApiWifiAdapter;
+import global.config.InstanceFactory;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import service.entity.Wifi;
 import service.repository.WifiRepository;
-import service.repository.WifiRepositoryImpl;
 
 import java.util.List;
 import java.util.Map;
@@ -14,20 +14,12 @@ import java.util.stream.Collectors;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class WifiSaveServiceImpl implements WifiSaveService {
 
-    public static WifiSaveService getInstance() {
-        return LazyHolder.INSTANCE;
-    }
-
-    private static class LazyHolder {
-        private static final WifiSaveService INSTANCE = new WifiSaveServiceImpl();
-    }
-
     private final OpenApiWifiAdapter openApiWifiAdapter;
     private final WifiRepository wifiRepository;
 
-    private WifiSaveServiceImpl() {
+    public WifiSaveServiceImpl() {
         openApiWifiAdapter = OpenApiWifiAdapter.getInstance();
-        wifiRepository = WifiRepositoryImpl.getInstance();
+        wifiRepository = InstanceFactory.WifiRepositoryFactory.getInstance();
     }
 
     @Override

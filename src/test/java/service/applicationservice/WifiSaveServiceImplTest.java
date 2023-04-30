@@ -1,14 +1,13 @@
 package service.applicationservice;
 
+import global.config.InstanceFactory;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class WifiSaveServiceImplTest {
 
     private static final WifiSaveService wifiSaveService;
     static {
-        wifiSaveService = WifiSaveServiceImpl.getInstance();
+        wifiSaveService = InstanceFactory.WifiSaveServiceFactory.getInstance();
     }
 
     @Test

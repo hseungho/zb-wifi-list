@@ -1,11 +1,11 @@
 package service.applicationservice;
 
+import global.config.InstanceFactory;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import service.controller.dto.WifiDistanceDto;
 import service.entity.Wifi;
 import service.repository.WifiRepository;
-import service.repository.WifiRepositoryImpl;
 
 import java.util.Comparator;
 import java.util.List;
@@ -14,18 +14,10 @@ import java.util.stream.Collectors;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class WifiFindServiceImpl implements WifiFindService {
 
-    public static WifiFindService getInstance() {
-        return LazyHolder.INSTANCE;
-    }
-
-    private static class LazyHolder {
-        private static final WifiFindService INSTANCE = new WifiFindServiceImpl();
-    }
-
     private final WifiRepository wifiRepository;
 
-    private WifiFindServiceImpl() {
-        wifiRepository = WifiRepositoryImpl.getInstance();
+    public WifiFindServiceImpl() {
+        wifiRepository = InstanceFactory.WifiRepositoryFactory.getInstance();
     }
 
     @Override

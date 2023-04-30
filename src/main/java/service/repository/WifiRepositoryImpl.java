@@ -12,14 +12,7 @@ import java.util.*;
 
 public class WifiRepositoryImpl extends Repository implements WifiRepository {
 
-    public static WifiRepository getInstance() {
-        return LazyHolder.INSTANCE;
-    }
-    private static class LazyHolder {
-        private static final WifiRepository INSTANCE = new WifiRepositoryImpl();
-    }
-
-    private WifiRepositoryImpl() {
+    public WifiRepositoryImpl() {
         super.connect();
     }
 

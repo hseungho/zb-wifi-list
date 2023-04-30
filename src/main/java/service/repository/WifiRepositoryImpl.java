@@ -1,6 +1,7 @@
 package service.repository;
 
 import global.config.DBConfig;
+import global.constants.SQLConstants;
 import global.constants.WifiConstants;
 import service.entity.Wifi;
 import service.repository.base.Repository;
@@ -14,14 +15,12 @@ public class WifiRepositoryImpl extends Repository implements WifiRepository {
 
     public WifiRepositoryImpl() {
         super.connect();
+        super.initEachTable(SQLConstants.WIFI_TABLE.DDL);
     }
 
     @Override
     public void save(Wifi wifi) {
-        String prepareQuery = "INSERT INTO WIFI " +
-                "(id, district, name, address1, address2, instl_floor, instl_type, instl_org, service_class, net_type, instl_year, in_out_type, connect_env, lat, lnt, worked_at) " +
-                "VALUES " +
-                "('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%d', '%s', '%s', '%f', '%f', '%s')";
+        String prepareQuery = SQLConstants.WIFI_TABLE.INSERT_BASIC_FORMAT;
 
         String query = String.format(prepareQuery,
                 wifi.getId(), wifi.getDistrict(), wifi.getName(), wifi.getAddress1(), wifi.getAddress2(),
@@ -33,10 +32,7 @@ public class WifiRepositoryImpl extends Repository implements WifiRepository {
     }
 
     public void saveAll(List<Map<String, Object>> wifiMapList) {
-        String query = "INSERT INTO WIFI " +
-                "(id, district, name, address1, address2, instl_floor, instl_type, instl_org, service_class, net_type, instl_year, in_out_type, connect_env, lat, lnt, worked_at) " +
-                "VALUES " +
-                "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+        String query = SQLConstants.WIFI_TABLE.INSERT_BASIC_STATEMENT;
 
         PreparedStatement preparedStatement = null;
         try {
@@ -87,22 +83,22 @@ public class WifiRepositoryImpl extends Repository implements WifiRepository {
     }
 
     @Override
-    public Wifi find(int id) {
+    public Wifi find(Long id) {
         return null;
     }
 
     @Override
     public List<Wifi> findAll() {
-        String query = "SELECT * FROM WIFI";
+        String query = SQLConstants.WIFI_TABLE.SELECT_ALL;
 
         ResultSet rs = super.find(query);
 
         List<Wifi> wifiList = new ArrayList<>();
         try {
             while (rs.next()) {
-                if (!rs.next()) break;
                 Wifi wifi = Wifi.of(rs);
                 wifiList.add(wifi);
+                if (!rs.next()) break;
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -111,12 +107,12 @@ public class WifiRepositoryImpl extends Repository implements WifiRepository {
     }
 
     @Override
-    public boolean update(int id) {
+    public boolean update(Long id) {
         return false;
     }
 
     @Override
-    public boolean delete(int id) {
+    public boolean delete(Long id) {
         return false;
     }
 }

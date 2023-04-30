@@ -24,10 +24,21 @@ public class Repository {
         }
     }
 
+    protected void initEachTable(String query) {
+        try {
+            statement = connect.createStatement();
+            statement.executeUpdate(query);
+            connect.commit();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void save(String query) {
         try {
             statement = connect.createStatement();
             statement.executeUpdate(query);
+            connect.commit();
         }
         catch (SQLException e) {
             e.printStackTrace();
@@ -36,8 +47,8 @@ public class Repository {
 
     public ResultSet find(String query) {
         try {
-            statement = connect.createStatement();
-            resultSet = statement.executeQuery(query);
+            PreparedStatement preparedStatement = connect.prepareStatement(query);
+            resultSet = executeQuery(preparedStatement);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -47,6 +58,26 @@ public class Repository {
     public boolean update(String query) {
         int resultRows = executeUpdate(query);
         return resultRows > 0;
+    }
+
+    protected ResultSet executeQuery(PreparedStatement statement) {
+        try {
+            ResultSet rs = statement.executeQuery();
+            connect.commit();
+            return rs;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    protected int executeUpdate(PreparedStatement statement) {
+        try {
+            int executeUpdate = statement.executeUpdate();
+            connect.commit();
+            return executeUpdate;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private int executeUpdate(String query) {
@@ -62,6 +93,33 @@ public class Repository {
 
     public boolean delete(String query) {
         int resultRows = executeUpdate(query);
+        return resultRows > 0;
+    }
+
+    public boolean deleteById(String query, Long id) {
+        PreparedStatement preparedStatement = null;
+
+        try {
+            preparedStatement = connect.prepareStatement(query);
+
+            preparedStatement.setObject(1, id);
+
+            return delete(preparedStatement);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (preparedStatement != null) {
+                try {
+                    preparedStatement.close();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+    }
+
+    public boolean delete(PreparedStatement statement) {
+        int resultRows = executeUpdate(statement);
         return resultRows > 0;
     }
 

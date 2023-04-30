@@ -9,6 +9,4 @@ public class DBConfig {
     public static final int OPT_BATCH_SIZE = 500;
 
 
-    private static final String DDL =
-            "CREATE TABLE wifi (id text PRIMARY KEY, district text, name text, address1 text, address2 text, instl_floor text, instl_type text, instl_org text, service_class text, net_type text, instl_year integer, in_out_type text, connect_env text, lat real, lnt real, worked_at text);";
 }

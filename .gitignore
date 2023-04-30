@@ -1,0 +1,7 @@
+.idea
+out
+.gradle
+sqlite3.exe
+*.iml
+build
+wifi.db

@@ -1,6 +1,18 @@
 package global.config;
 
-import service.applicationservice.*;
+import service.applicationservice.bookmark.BookmarkSaveService;
+import service.applicationservice.bookmark.BookmarkSaveServiceImpl;
+import service.applicationservice.bookmark.BookmarkUpdateService;
+import service.applicationservice.bookmark.BookmarkUpdateServiceImpl;
+import service.applicationservice.history.*;
+import service.applicationservice.wifi.WifiFindService;
+import service.applicationservice.wifi.WifiFindServiceImpl;
+import service.applicationservice.wifi.WifiSaveService;
+import service.applicationservice.wifi.WifiSaveServiceImpl;
+import service.applicationservice.wifibookmark.WifiBookmarkFindService;
+import service.applicationservice.wifibookmark.WifiBookmarkFindServiceImpl;
+import service.applicationservice.wifibookmark.WifiBookmarkSaveService;
+import service.applicationservice.wifibookmark.WifiBookmarkSaveServiceImpl;
 import service.repository.*;
 import service.repository.base.ConnectionPool;
 import service.repository.base.transaction.TransactionalProxy;

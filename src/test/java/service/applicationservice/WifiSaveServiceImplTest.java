@@ -2,6 +2,7 @@ package service.applicationservice;
 
 import global.config.InstanceFactory;
 import org.junit.jupiter.api.Test;
+import service.applicationservice.wifi.WifiSaveService;
 
 class WifiSaveServiceImplTest {
 

@@ -1,4 +1,4 @@
-package service.applicationservice;
+package service.applicationservice.wifibookmark;
 
 import service.controller.dto.WifiBookmarkResponseDto;
 

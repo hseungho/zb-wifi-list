@@ -2,11 +2,10 @@ package service.applicationservice;
 
 import global.config.InstanceFactory;
 import org.junit.jupiter.api.Test;
+import service.applicationservice.wifibookmark.WifiBookmarkFindService;
 import service.controller.dto.WifiBookmarkResponseDto;
 
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class WifiBookmarkFindServiceTest {
 

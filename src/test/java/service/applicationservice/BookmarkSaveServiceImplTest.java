@@ -3,13 +3,12 @@ package service.applicationservice;
 import global.config.InstanceFactory;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import service.applicationservice.bookmark.BookmarkSaveService;
 import service.controller.dto.BookmarkSaveRequestDto;
 import service.entity.Bookmark;
 import service.repository.BookmarkRepository;
 
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class BookmarkSaveServiceImplTest {
 

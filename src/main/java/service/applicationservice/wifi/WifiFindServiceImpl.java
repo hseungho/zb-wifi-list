@@ -1,4 +1,4 @@
-package service.applicationservice;
+package service.applicationservice.wifi;
 
 import global.config.InstanceFactory;
 import lombok.AccessLevel;

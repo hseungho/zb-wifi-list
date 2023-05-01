@@ -1,4 +1,4 @@
-package service.applicationservice;
+package service.applicationservice.history;
 
 import service.controller.dto.HistoryResponseDto;
 

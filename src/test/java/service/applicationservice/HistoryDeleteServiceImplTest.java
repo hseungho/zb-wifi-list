@@ -3,11 +3,11 @@ package service.applicationservice;
 import global.config.InstanceFactory;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import service.applicationservice.history.HistoryDeleteService;
+import service.applicationservice.history.HistorySaveService;
 import service.controller.dto.HistorySaveRequestDto;
 import service.controller.dto.HistorySaveResponseDto;
 import service.repository.HistoryRepository;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class HistoryDeleteServiceImplTest {
 

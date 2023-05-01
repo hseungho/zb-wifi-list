@@ -3,6 +3,7 @@ package service.applicationservice;
 import global.config.InstanceFactory;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import service.applicationservice.history.HistorySaveService;
 import service.controller.dto.HistorySaveRequestDto;
 import service.entity.History;
 import service.repository.HistoryRepository;

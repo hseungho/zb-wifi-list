@@ -1,4 +1,4 @@
-package service.applicationservice;
+package service.applicationservice.bookmark;
 
 public interface BookmarkUpdateService {
 

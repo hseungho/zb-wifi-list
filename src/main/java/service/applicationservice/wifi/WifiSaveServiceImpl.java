@@ -1,4 +1,4 @@
-package service.applicationservice;
+package service.applicationservice.wifi;
 
 import global.adapter.openapi.OpenApiWifiAdapter;
 import global.config.InstanceFactory;

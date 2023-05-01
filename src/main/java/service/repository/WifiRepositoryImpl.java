@@ -90,6 +90,16 @@ public class WifiRepositoryImpl extends BaseRepository<Wifi, String> implements 
     }
 
     @Override
+    public void deleteById(String id) {
+
+    }
+
+    @Override
+    public boolean existsById(String s) {
+        return false;
+    }
+
+    @Override
     public void saveAll(List<Map<String, Object>> wifiMapList) {
         Connection connection = getTxConnection();
 

@@ -106,7 +106,13 @@ public class HistoryRepositoryImpl extends BaseRepository<History, Long> impleme
         deleteById(entity.getId());
     }
 
-    private void deleteById(Long id) {
+    @Override
+    public boolean existsById(Long aLong) {
+        return false;
+    }
+
+    @Override
+    public void deleteById(Long id) {
         String query = SQLConstants.HISTORY_TABLE.DELETE_WHERE_ID;
         PreparedStatement preparedStatement = null;
         try {

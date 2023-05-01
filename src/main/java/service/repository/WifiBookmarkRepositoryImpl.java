@@ -101,4 +101,14 @@ public class WifiBookmarkRepositoryImpl extends BaseRepository<WifiBookmark, Lon
 
     }
 
+    @Override
+    public boolean existsById(Long aLong) {
+        return false;
+    }
+
+    @Override
+    public void deleteById(Long aLong) {
+
+    }
+
 }

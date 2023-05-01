@@ -1,9 +1,8 @@
-package service.applicationservice;
+package service.applicationservice.bookmark;
 
 import global.config.InstanceFactory;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import service.applicationservice.bookmark.BookmarkSaveService;
 import service.controller.dto.BookmarkSaveRequestDto;
 import service.entity.Bookmark;
 import service.repository.BookmarkRepository;

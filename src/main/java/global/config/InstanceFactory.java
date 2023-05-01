@@ -1,9 +1,6 @@
 package global.config;
 
-import service.applicationservice.bookmark.BookmarkSaveService;
-import service.applicationservice.bookmark.BookmarkSaveServiceImpl;
-import service.applicationservice.bookmark.BookmarkUpdateService;
-import service.applicationservice.bookmark.BookmarkUpdateServiceImpl;
+import service.applicationservice.bookmark.*;
 import service.applicationservice.history.*;
 import service.applicationservice.wifi.WifiFindService;
 import service.applicationservice.wifi.WifiFindServiceImpl;
@@ -76,6 +73,15 @@ public class InstanceFactory {
         }
         private static class LazyHolder {
             private static final BookmarkUpdateService INSTANCE = new BookmarkUpdateServiceImpl();
+        }
+    }
+
+    public static class BookmarkDeleteServiceFactory {
+        public static BookmarkDeleteService getInstance() {
+            return LazyHolder.INSTANCE;
+        }
+        private static class LazyHolder {
+            private static final BookmarkDeleteService INSTANCE = new BookmarkDeleteServiceImpl();
         }
     }
 

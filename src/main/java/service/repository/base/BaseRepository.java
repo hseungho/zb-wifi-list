@@ -4,7 +4,7 @@ import java.sql.*;
 import java.util.List;
 import java.util.Optional;
 
-public abstract class BaseRepository<T, ID> {
+public abstract class BaseRepository<T, ID> implements CrudRepository<T, ID> {
 
     private final ConnectionPool connectionPool;
     public BaseRepository(ConnectionPool connectionPool) {
@@ -37,6 +37,8 @@ public abstract class BaseRepository<T, ID> {
     public abstract T update(T entity);
 
     public abstract void delete(T entity);
+
+    public abstract boolean existsById(ID id);
 
     public Connection getConnection() {
         return this.connectionPool.getConnection();

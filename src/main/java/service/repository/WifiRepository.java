@@ -8,6 +8,7 @@ import java.util.Map;
 
 public interface WifiRepository extends CrudRepository<Wifi, String> {
 
-    void saveAll(List<Map<String, Object>> mapList);
+    Integer saveAll(List<Map<String, Object>> mapList);
+    void deleteAll();
 
 }

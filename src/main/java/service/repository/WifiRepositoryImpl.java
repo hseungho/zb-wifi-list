@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class WifiRepositoryImpl extends BaseRepository<Wifi, String> implements WifiRepository {
 
@@ -100,11 +101,12 @@ public class WifiRepositoryImpl extends BaseRepository<Wifi, String> implements 
     }
 
     @Override
-    public void saveAll(List<Map<String, Object>> wifiMapList) {
+    public Integer saveAll(List<Map<String, Object>> wifiMapList) {
         Connection connection = getTxConnection();
 
         String query = SQLConstants.WIFI_TABLE.INSERT_BASIC_STATEMENT;
         PreparedStatement preparedStatement = null;
+        AtomicInteger count = new AtomicInteger(0);
         try {
 
             preparedStatement = connection.prepareStatement(query);
@@ -129,6 +131,7 @@ public class WifiRepositoryImpl extends BaseRepository<Wifi, String> implements 
                 preparedStatement.setObject(16, wifiMap.get(WifiConstants.FIELD_WORKED_AT));
 
                 preparedStatement.addBatch();
+                count.getAndIncrement();
 
                 if (i % DBConfig.OPT_BATCH_SIZE == 0) {
                     preparedStatement.executeBatch();
@@ -144,8 +147,22 @@ public class WifiRepositoryImpl extends BaseRepository<Wifi, String> implements 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
-            returnConnection(connection);
-            close(preparedStatement, null);
+            close(preparedStatement);
+        }
+        return count.get();
+    }
+
+    @Override
+    public void deleteAll() {
+        String query = SQLConstants.WIFI_TABLE.DELETE_ALL;
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = getTxConnection().prepareStatement(query);
+            super.executeUpdate(preparedStatement);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            close(preparedStatement);
         }
     }
 }

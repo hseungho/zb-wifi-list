@@ -4,6 +4,7 @@ import global.adapter.openapi.OpenApiWifiAdapter;
 import global.config.InstanceFactory;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import service.controller.dto.WifiSaveResponseDto;
 import service.entity.Wifi;
 import service.repository.WifiRepository;
 
@@ -23,13 +24,19 @@ public class WifiSaveServiceImpl implements WifiSaveService {
     }
 
     @Override
-    public void getOpenApiWifiListAndSave() {
+    public WifiSaveResponseDto getOpenApiWifiListAndSave() {
+        List<Wifi> existsWifis = wifiRepository.findAll();
+        if (!existsWifis.isEmpty()) {
+            throw new RuntimeException("이미 와이파이 정보가 있습니다.");
+        }
+
         List<Wifi> wifiInfo = openApiWifiAdapter.getWifiInfo();
 
         List<Map<String, Object>> fieldMap = wifiInfo.stream()
                 .map(Wifi::getFieldMap)
                 .collect(Collectors.toList());
 
-        wifiRepository.saveAll(fieldMap);
+        Integer saveCount = wifiRepository.saveAll(fieldMap);
+        return WifiSaveResponseDto.of(saveCount);
     }
 }

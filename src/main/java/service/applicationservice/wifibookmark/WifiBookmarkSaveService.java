@@ -1,7 +1,9 @@
 package service.applicationservice.wifibookmark;
 
+import service.controller.dto.WifiBookmarkSaveResponseDto;
+
 public interface WifiBookmarkSaveService {
 
-    void saveWifiBookmark(String wifiId, Long bookmarkId);
+    WifiBookmarkSaveResponseDto saveWifiBookmark(String wifiId, Long bookmarkId);
 
 }

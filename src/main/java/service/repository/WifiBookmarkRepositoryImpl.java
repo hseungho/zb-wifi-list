@@ -2,6 +2,7 @@ package service.repository;
 
 import global.config.InstanceFactory;
 import global.constants.SQLConstants;
+import org.jetbrains.annotations.NotNull;
 import service.entity.Bookmark;
 import service.entity.Wifi;
 import service.entity.WifiBookmark;
@@ -72,14 +73,29 @@ public class WifiBookmarkRepositoryImpl extends BaseRepository<WifiBookmark, Lon
             resultSet = executeQuery(preparedStatement);
             List<WifiBookmark> wifiBookmarks = new ArrayList<>();
             while(resultSet.next()) {
-                WifiBookmark wifiBookmark = WifiBookmark.of(resultSet);
+                WifiBookmark wifiBookmark = convertWifiBookmark(resultSet);
+                wifiBookmarks.add(wifiBookmark);
+            }
+            return wifiBookmarks;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            close(preparedStatement, resultSet);
+        }
+    }
 
-                Wifi wifi = Wifi.wifiBookmarkOf(resultSet);
-                wifiBookmark.associate(wifi);
 
-                Bookmark bookmark = Bookmark.wifiBookmarkOf(resultSet);
-                wifiBookmark.associate(bookmark);
-
+    @Override
+    public List<WifiBookmark> findListByBookmarkId(Long id) {
+        String query = SQLConstants.WIFI_BOOKMARK_TABLE.SELECT_WHERE_BOOKMARK_ID;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            preparedStatement = getTxConnection().prepareStatement(query);
+            resultSet = super.executeQuery(preparedStatement, id);
+            List<WifiBookmark> wifiBookmarks = new ArrayList<>();
+            while (resultSet.next()) {
+                WifiBookmark wifiBookmark = convertWifiBookmark(resultSet);
                 wifiBookmarks.add(wifiBookmark);
             }
             return wifiBookmarks;
@@ -109,6 +125,18 @@ public class WifiBookmarkRepositoryImpl extends BaseRepository<WifiBookmark, Lon
     @Override
     public void deleteById(Long aLong) {
 
+    }
+
+    @NotNull
+    private static WifiBookmark convertWifiBookmark(ResultSet resultSet) throws SQLException {
+        WifiBookmark wifiBookmark = WifiBookmark.of(resultSet);
+
+        Wifi wifi = Wifi.wifiBookmarkOf(resultSet);
+        wifiBookmark.associate(wifi);
+
+        Bookmark bookmark = Bookmark.wifiBookmarkOf(resultSet);
+        wifiBookmark.associate(bookmark);
+        return wifiBookmark;
     }
 
 }

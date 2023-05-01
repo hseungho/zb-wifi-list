@@ -25,6 +25,7 @@ public class SQLConstants {
 
         public static final String SELECT_WHERE_ID = "SELECT * FROM WIFI WHERE id = ?;";
 
+        public static final String DELETE_ALL = "DELETE FROM WIFI;";
     }
 
     public static class HISTORY_TABLE {
@@ -65,6 +66,7 @@ public class SQLConstants {
                         ");";
         public static final String INSERT_BASIC_STATEMENT = "INSERT INTO WIFI_BOOKMARK (wifi_id, bookmark_id, created_at) VALUES (?, ?, ?);";
         public static final String SELECT_ALL = "SELECT * FROM WIFI_BOOKMARK;";
+        public static final String SELECT_WHERE_BOOKMARK_ID = "SELECT * FROM wifi_bookmark WHERE bookmark_id = ?;";
         public static final String SELECT_ALL_JOIN_WIFI_JOIN_BOOKMARK =
                 "SELECT wb.id as id, wb.created_at, " +
                         "w.id as w_id, w.name as w_name, " +

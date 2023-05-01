@@ -6,10 +6,7 @@ import service.applicationservice.wifi.WifiFindService;
 import service.applicationservice.wifi.WifiFindServiceImpl;
 import service.applicationservice.wifi.WifiSaveService;
 import service.applicationservice.wifi.WifiSaveServiceImpl;
-import service.applicationservice.wifibookmark.WifiBookmarkFindService;
-import service.applicationservice.wifibookmark.WifiBookmarkFindServiceImpl;
-import service.applicationservice.wifibookmark.WifiBookmarkSaveService;
-import service.applicationservice.wifibookmark.WifiBookmarkSaveServiceImpl;
+import service.applicationservice.wifibookmark.*;
 import service.repository.*;
 import service.repository.base.ConnectionPool;
 import service.repository.base.transaction.TransactionalProxy;
@@ -55,6 +52,15 @@ public class InstanceFactory {
         }
         private static class LazyHolder {
             private static final HistoryFindService INSTANCE = new HistoryFindServiceImpl();
+        }
+    }
+
+    public static class HistoryDeleteServiceFactory {
+        public static HistoryDeleteService getInstance() {
+            return LazyHolder.INSTANCE;
+        }
+        private static class LazyHolder {
+            private static final HistoryDeleteService INSTANCE = new HistoryDeleteServiceImpl();
         }
     }
 
@@ -112,12 +118,12 @@ public class InstanceFactory {
         }
     }
 
-    public static class HistoryDeleteServiceFactory {
-        public static HistoryDeleteService getInstance() {
+    public static class WifiBookmarkDeleteServiceFactory {
+        public static WifiBookmarkDeleteService getInstance() {
             return LazyHolder.INSTANCE;
         }
         private static class LazyHolder {
-            private static final HistoryDeleteService INSTANCE = new HistoryDeleteServiceImpl();
+            private static final WifiBookmarkDeleteService INSTANCE = new WifiBookmarkDeleteServiceImpl();
         }
     }
 

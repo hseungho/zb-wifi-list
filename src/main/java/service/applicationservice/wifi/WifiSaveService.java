@@ -1,7 +1,9 @@
 package service.applicationservice.wifi;
 
+import service.controller.dto.WifiSaveResponseDto;
+
 public interface WifiSaveService {
 
-    void getOpenApiWifiListAndSave();
+    WifiSaveResponseDto getOpenApiWifiListAndSave();
 
 }

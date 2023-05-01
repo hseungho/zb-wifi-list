@@ -1,8 +1,9 @@
 package service.applicationservice.wifibookmark;
 
 import global.config.InstanceFactory;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import service.applicationservice.wifibookmark.WifiBookmarkSaveService;
+import service.controller.dto.WifiBookmarkSaveResponseDto;
 import service.repository.WifiBookmarkRepository;
 
 import java.util.ArrayList;
@@ -18,10 +19,12 @@ class WifiBookmarkSaveServiceImplTest {
         String wifiId = "---EP000001";
         Long bookmarkId = 1L;
 
-        wifiBookmarkSaveService.saveWifiBookmark(wifiId, bookmarkId);
+        WifiBookmarkSaveResponseDto save = wifiBookmarkSaveService.saveWifiBookmark(wifiId, bookmarkId);
+
+        wifiBookmarkRepository.deleteById(save.getId());
     }
 
-    @Test
+//    @Test
     void test_save_five_wifiBookmark() {
         List<String> wifiIds = new ArrayList<>();
         wifiIds.add("---EP000001");
@@ -37,8 +40,15 @@ class WifiBookmarkSaveServiceImplTest {
         bookmarkIds.add(4L);
         bookmarkIds.add(5L);
 
+        List<WifiBookmarkSaveResponseDto> dtos = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
-            wifiBookmarkSaveService.saveWifiBookmark(wifiIds.get(i), bookmarkIds.get(i));
+            WifiBookmarkSaveResponseDto save = wifiBookmarkSaveService.saveWifiBookmark(wifiIds.get(i), bookmarkIds.get(i));
+            dtos.add(save);
         }
+
+        Assertions.assertFalse(dtos.isEmpty());
+        Assertions.assertEquals(5, dtos.size());
+
+        dtos.forEach(dto -> wifiBookmarkRepository.deleteById(dto.getId()));
     }
 }

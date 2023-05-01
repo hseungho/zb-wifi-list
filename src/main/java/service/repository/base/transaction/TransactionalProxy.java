@@ -45,7 +45,6 @@ public class TransactionalProxy implements InvocationHandler {
             throw e;
         } finally {
             if (connection != null) {
-                connection.setAutoCommit(true);
                 this.connectionPool.releaseConnection(connection);
             }
         }

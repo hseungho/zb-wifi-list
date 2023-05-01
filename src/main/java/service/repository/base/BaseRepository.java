@@ -63,14 +63,6 @@ public abstract class BaseRepository<T, ID> implements CrudRepository<T, ID> {
         }
     }
 
-    protected ResultSet executeQuery(PreparedStatement preparedStatement) {
-        try {
-            return preparedStatement.executeQuery();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     protected ResultSet executeQuery(PreparedStatement preparedStatement, Object... conditions) {
         try {
             for (int i = 0; i < conditions.length; i++) {

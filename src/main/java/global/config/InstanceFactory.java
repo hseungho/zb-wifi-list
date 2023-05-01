@@ -58,6 +58,15 @@ public class InstanceFactory {
         }
     }
 
+    public static class BookmarkUpdateServiceFactory {
+        public static BookmarkUpdateService getInstance() {
+            return LazyHolder.INSTANCE;
+        }
+        private static class LazyHolder {
+            private static final BookmarkUpdateService INSTANCE = new BookmarkUpdateServiceImpl();
+        }
+    }
+
     public static class WifiBookmarkSaveServiceFactory {
         public static WifiBookmarkSaveService getInstance() {
             return LazyHolder.INSTANCE;
@@ -95,7 +104,7 @@ public class InstanceFactory {
             private static final ConnectionPool INSTANCE;
             static {
                 try {
-                    INSTANCE = new ConnectionPool(DBConfig.OPT_CONNECTION_POOL_MAX);
+                    INSTANCE = new ConnectionPool();
                 } catch (SQLException | ClassNotFoundException e) {
                     throw new RuntimeException(e);
                 }

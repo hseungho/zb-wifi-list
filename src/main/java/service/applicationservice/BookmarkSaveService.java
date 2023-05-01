@@ -1,9 +1,10 @@
 package service.applicationservice;
 
 import service.controller.dto.BookmarkSaveRequestDto;
+import service.controller.dto.BookmarkSaveResponseDto;
 
 public interface BookmarkSaveService {
 
-    void saveBookmark(BookmarkSaveRequestDto dto);
+    BookmarkSaveResponseDto saveBookmark(BookmarkSaveRequestDto dto);
 
 }

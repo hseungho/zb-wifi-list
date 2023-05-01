@@ -79,8 +79,9 @@ public class WifiRepositoryImpl extends BaseRepository<Wifi, String> implements 
     }
 
     @Override
-    public void update(Wifi entity) {
+    public Wifi update(Wifi entity) {
 
+        return null;
     }
 
     @Override

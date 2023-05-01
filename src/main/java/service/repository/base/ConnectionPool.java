@@ -14,14 +14,15 @@ import java.util.concurrent.BlockingQueue;
 public class ConnectionPool {
     private final BlockingQueue<Connection> pool;
 
-    public ConnectionPool(int poolSize) throws SQLException, ClassNotFoundException {
+    public ConnectionPool() throws SQLException, ClassNotFoundException {
+        int poolSize = DBConfig.OPT_CONNECTION_POOL_MAX;
         pool = new ArrayBlockingQueue<>(poolSize);
         Class.forName(DBConfig.SQLITE_DRIVER);
         for (int i = 0; i < poolSize; i++) {
             Connection connection = createConnection();
             pool.add(connection);
         }
-        System.out.println("INFO: create db connection pool total: " +poolSize);
+        System.out.println("INFO: create db connection pool total: " + poolSize);
     }
 
     @NotNull

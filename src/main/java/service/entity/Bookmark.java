@@ -22,6 +22,12 @@ public class Bookmark {
         this.id = id;
     }
 
+    public void update(String name, Integer order) {
+        this.name = name;
+        this.order = order;
+        this.updatedAt = LocalDateTime.now();
+    }
+
     ////////////////////////////////////////////////////////////////////
     // Entity Factory
     public static Bookmark of(String name, int order) {

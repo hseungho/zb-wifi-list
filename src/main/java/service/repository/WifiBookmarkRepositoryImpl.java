@@ -91,8 +91,9 @@ public class WifiBookmarkRepositoryImpl extends BaseRepository<WifiBookmark, Lon
     }
 
     @Override
-    public void update(WifiBookmark entity) {
+    public WifiBookmark update(WifiBookmark entity) {
 
+        return null;
     }
 
     @Override

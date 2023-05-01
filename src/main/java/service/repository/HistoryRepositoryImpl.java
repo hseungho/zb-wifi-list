@@ -96,8 +96,9 @@ public class HistoryRepositoryImpl extends BaseRepository<History, Long> impleme
     }
 
     @Override
-    public void update(History entity) {
+    public History update(History entity) {
 
+        return null;
     }
 
     @Override

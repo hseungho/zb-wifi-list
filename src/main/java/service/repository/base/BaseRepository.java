@@ -34,7 +34,7 @@ public abstract class BaseRepository<T, ID> {
 
     public abstract T save(T entity);
 
-    public abstract void update(T entity);
+    public abstract T update(T entity);
 
     public abstract void delete(T entity);
 

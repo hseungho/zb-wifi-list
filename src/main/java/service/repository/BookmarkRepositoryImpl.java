@@ -98,8 +98,23 @@ public class BookmarkRepositoryImpl extends BaseRepository<Bookmark, Long> imple
     }
 
     @Override
-    public void update(Bookmark entity) {
-
+    public Bookmark update(Bookmark entity) {
+        String query = SQLConstants.BOOKMARK_TABLE.UPDATE_NAME_ORDER_WHERE_ID;
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = getTxConnection().prepareStatement(query);
+            super.executeUpdate(preparedStatement,
+                    entity.getName(),
+                    entity.getOrder(),
+                    entity.getUpdatedAt(),
+                    entity.getId()
+            );
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            close(preparedStatement);
+        }
+        return entity;
     }
 
     @Override

@@ -48,6 +48,7 @@ public class SQLConstants {
         public static final String SELECT_ALL = "SELECT * FROM BOOKMARK;";
         public static final String SELECT_WHERE_ID = "SELECT * FROM BOOKMARK WHERE id = ?;";
         public static final String DELETE_WHERE_ID = "DELETE FROM BOOKMARK WHERE id = ?;";
+        public static final String UPDATE_NAME_ORDER_WHERE_ID = "UPDATE bookmark SET name = ?, order_num = ?, updated_at = ? WHERE id = ?;";
 
     }
 

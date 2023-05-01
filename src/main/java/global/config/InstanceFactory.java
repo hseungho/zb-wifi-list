@@ -67,6 +67,15 @@ public class InstanceFactory {
         }
     }
 
+    public static class BookmarkFindServiceFactory {
+        public static BookmarkFindService getInstance() {
+            return LazyHolder.INSTANCE;
+        }
+        private static class LazyHolder {
+            private static final BookmarkFindService INSTANCE = new BookmarkFindServiceImpl();
+        }
+    }
+
     public static class BookmarkUpdateServiceFactory {
         public static BookmarkUpdateService getInstance() {
             return LazyHolder.INSTANCE;

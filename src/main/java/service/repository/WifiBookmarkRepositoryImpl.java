@@ -33,7 +33,7 @@ public class WifiBookmarkRepositoryImpl extends BaseRepository<WifiBookmark, Lon
     }
 
     @Override
-    public void save(WifiBookmark wifiBookmark) {
+    public WifiBookmark save(WifiBookmark wifiBookmark) {
         String query = SQLConstants.WIFI_BOOKMARK_TABLE.INSERT_BASIC_STATEMENT;
         PreparedStatement preparedStatement = null;
         try {
@@ -42,6 +42,14 @@ public class WifiBookmarkRepositoryImpl extends BaseRepository<WifiBookmark, Lon
                     wifiBookmark.getWifi().getId(),
                     wifiBookmark.getBookmark().getId(),
                     wifiBookmark.getCreatedAt().toString());
+            ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                Long id = generatedKeys.getLong(1);
+                wifiBookmark.setId(id);
+                return wifiBookmark;
+            } else {
+                throw new RuntimeException("Cannot get History id");
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {

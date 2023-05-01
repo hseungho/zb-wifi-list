@@ -1,9 +1,10 @@
 package service.applicationservice;
 
 import service.controller.dto.HistorySaveRequestDto;
+import service.controller.dto.HistorySaveResponseDto;
 
 public interface HistorySaveService {
 
-    void saveHistory(HistorySaveRequestDto dto);
+    HistorySaveResponseDto saveHistory(HistorySaveRequestDto dto);
 
 }

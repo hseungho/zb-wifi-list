@@ -76,6 +76,15 @@ public class InstanceFactory {
         }
     }
 
+    public static class HistoryDeleteServiceFactory {
+        public static HistoryDeleteService getInstance() {
+            return LazyHolder.INSTANCE;
+        }
+        private static class LazyHolder {
+            private static final HistoryDeleteService INSTANCE = new HistoryDeleteServiceImpl();
+        }
+    }
+
     //////////////////////////////////////////////////////////////////////////////
     // Repository Factory
     public static class ConnectionPoolFactory {

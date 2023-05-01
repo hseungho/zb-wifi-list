@@ -18,6 +18,10 @@ public class WifiBookmark {
     private Bookmark bookmark;
     private LocalDateTime createdAt;
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public void associate(Wifi wifi) {
         this.wifi = wifi;
     }

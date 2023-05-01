@@ -18,6 +18,10 @@ public class Bookmark {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     ////////////////////////////////////////////////////////////////////
     // Entity Factory
     public static Bookmark of(String name, int order) {

@@ -35,7 +35,7 @@ public class SQLConstants {
                 "INSERT INTO HISTORY (lat, lnt, created_at) VALUES (?, ?, ?);";
 
         public static final String SELECT_ALL = "SELECT * FROM HISTORY";
-        public static final String SELECT_WHERE_ID_STATEMENT = "SELECT * FROM HISTORY WHERE id = ?;";
+        public static final String SELECT_WHERE_ID = "SELECT * FROM HISTORY WHERE id = ?;";
         public static final String DELETE_WHERE_ID = "DELETE FROM HISTORY WHERE id = ?;";
     }
 

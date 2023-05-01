@@ -29,7 +29,7 @@ public class HistoryRepositoryImpl extends BaseRepository<History, Long> impleme
     }
 
     @Override
-    public void save(History history) {
+    public History save(History history) {
         String query = SQLConstants.HISTORY_TABLE.INSERT_BASIC_STATEMENT;
         PreparedStatement preparedStatement = null;
         try {
@@ -39,6 +39,14 @@ public class HistoryRepositoryImpl extends BaseRepository<History, Long> impleme
                     history.getLnt(),
                     history.getCreatedAt().toString());
 
+            ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                Long id = generatedKeys.getLong(1);
+                history.setId(id);
+                return history;
+            } else {
+                throw new RuntimeException("Cannot get History id");
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
@@ -48,14 +56,27 @@ public class HistoryRepositoryImpl extends BaseRepository<History, Long> impleme
 
     @Override
     public Optional<History> findById(Long id) {
-
-        return null;
+        String query = SQLConstants.HISTORY_TABLE.SELECT_WHERE_ID;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            preparedStatement = getTxConnection().prepareStatement(query);
+            resultSet = super.executeQuery(preparedStatement, id);
+            if (resultSet.next()) {
+                History history = History.of(resultSet);
+                return Optional.of(history);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            close(preparedStatement, resultSet);
+        }
+        return Optional.empty();
     }
 
     @Override
     public List<History> findAll() {
         String query = SQLConstants.HISTORY_TABLE.SELECT_ALL;
-
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         try {

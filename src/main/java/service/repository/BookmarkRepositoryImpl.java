@@ -30,7 +30,7 @@ public class BookmarkRepositoryImpl extends BaseRepository<Bookmark, Long> imple
     }
 
     @Override
-    public void save(Bookmark bookmark) {
+    public Bookmark save(Bookmark bookmark) {
         String query = SQLConstants.BOOKMARK_TABLE.INSERT_BASIC_STATEMENT;
         PreparedStatement preparedStatement = null;
         try {
@@ -40,6 +40,14 @@ public class BookmarkRepositoryImpl extends BaseRepository<Bookmark, Long> imple
                     bookmark.getOrder(),
                     bookmark.getCreatedAt().toString()
             );
+            ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                Long id = generatedKeys.getLong(1);
+                bookmark.setId(id);
+                return bookmark;
+            } else {
+                throw new RuntimeException("Cannot get Bookmark id");
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {

@@ -28,15 +28,15 @@ public abstract class BaseRepository<T, ID> {
 
     protected abstract Connection getTxConnection();
 
-    public abstract Optional<T> findById(ID id) throws SQLException;
+    public abstract Optional<T> findById(ID id);
 
-    public abstract List<T> findAll() throws SQLException;
+    public abstract List<T> findAll();
 
-    public abstract void save(T entity) throws SQLException;
+    public abstract T save(T entity);
 
-    public abstract void update(T entity) throws SQLException;
+    public abstract void update(T entity);
 
-    public abstract void delete(T entity) throws SQLException;
+    public abstract void delete(T entity);
 
     public Connection getConnection() {
         return this.connectionPool.getConnection();

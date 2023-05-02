@@ -1,7 +1,7 @@
 package service.controller;
 
-import com.google.gson.Gson;
 import global.config.InstanceFactory;
+import global.util.ResponseUtils;
 import service.applicationservice.wifi.WifiFindService;
 import service.controller.dto.WifiDistanceResponseDto;
 
@@ -32,8 +32,6 @@ public class WifiNearController extends HttpServlet {
 
         List<WifiDistanceResponseDto> wifiList = wifiFindService.getDistanceWifiList(lat, lnt);
 
-        String gson = new Gson().toJson(wifiList);
-        resp.setContentType("application/json;charset=UTF-8");
-        resp.getWriter().println(gson);
+        ResponseUtils.response(resp, wifiList);
     }
 }

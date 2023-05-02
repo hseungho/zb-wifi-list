@@ -1,7 +1,7 @@
 package service.controller;
 
-import com.google.gson.Gson;
 import global.config.InstanceFactory;
+import global.util.ResponseUtils;
 import service.applicationservice.wifi.WifiFindService;
 import service.controller.dto.WifiExistsResponseDto;
 
@@ -25,8 +25,6 @@ public class WifiExistsCheckController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         WifiExistsResponseDto responseDto = wifiFindService.existsAnyWifiData();
 
-        String gson = new Gson().toJson(responseDto);
-        resp.setContentType("application/json;charset=UTF-8");
-        resp.getWriter().println(gson);
+        ResponseUtils.response(resp, responseDto);
     }
 }

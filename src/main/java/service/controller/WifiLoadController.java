@@ -1,7 +1,7 @@
 package service.controller;
 
-import com.google.gson.Gson;
 import global.config.InstanceFactory;
+import global.util.ResponseUtils;
 import service.applicationservice.wifi.WifiDeleteService;
 import service.applicationservice.wifi.WifiSaveService;
 import service.controller.dto.WifiSaveResponseDto;
@@ -31,8 +31,6 @@ public class WifiLoadController extends HttpServlet {
 
         WifiSaveResponseDto saveDto = wifiSaveService.getOpenApiWifiListAndSave();
 
-        String gson = new Gson().toJson(saveDto);
-        resp.setContentType("application/json;charset=UTF-8");
-        resp.getWriter().println(gson);
+        ResponseUtils.response(resp, saveDto);
     }
 }

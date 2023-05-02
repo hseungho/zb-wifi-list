@@ -5,6 +5,7 @@ import service.controller.dto.HistoryResponseDto;
 import service.entity.History;
 import service.repository.HistoryRepository;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,6 +28,7 @@ public class HistoryFindServiceImpl implements HistoryFindService {
 
         return histories.stream()
                 .map(HistoryResponseDto::of)
+                .sorted(Comparator.comparing(HistoryResponseDto::getId).reversed())
                 .collect(Collectors.toList());
     }
 

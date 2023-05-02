@@ -1,26 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-  <style>
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-    thead {
-      background-color: #00AB6F;
-      color: white;
-    }
-    table, td {
-      border: 1px solid #B8B8B8;
-    }
-    th {
-      border: 1px solid white;
-    }
-    td {
-      height: 70px;
-    }
-  </style>
   <head>
     <title>와이파이 정보 구하기</title>
+    <link rel="stylesheet" href="css/table.css">
   </head>
   <body>
     <h1>와이파이 정보 구하기</h1>
@@ -34,7 +16,7 @@
     </form>
     <table>
       <thead>
-      <tr style="height: 40px">
+      <tr style="height: 30px">
         <th>거리(km)</th>
         <th>관리번호</th>
         <th>자치구</th>

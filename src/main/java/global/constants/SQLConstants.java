@@ -26,6 +26,8 @@ public class SQLConstants {
         public static final String SELECT_WHERE_ID = "SELECT * FROM WIFI WHERE id = ?;";
 
         public static final String DELETE_ALL = "DELETE FROM WIFI;";
+
+        public static final String EXISTS_AT_LEAST_ONE = "SELECT EXISTS(SELECT 1 FROM wifi LIMIT 1);";
     }
 
     public static class HISTORY_TABLE {
@@ -58,11 +60,11 @@ public class SQLConstants {
         public static final String DDL =
                 "CREATE TABLE IF NOT EXISTS wifi_bookmark (" +
                         "id integer PRIMARY KEY AUTOINCREMENT, " +
-                        "wifi_id text, " +
-                        "bookmark_id integer, " +
+                        "wifi_id text NOT NULL, " +
+                        "bookmark_id integer NOT NULL, " +
                         "created_at text," +
-                        "FOREIGN KEY (wifi_id) REFERENCES wifi(id)," +
-                        "FOREIGN KEY (bookmark_id) REFERENCES bookmark(id)" +
+                        "FOREIGN KEY (wifi_id) REFERENCES wifi(id) ON DELETE CASCADE ON UPDATE CASCADE," +
+                        "FOREIGN KEY (bookmark_id) REFERENCES bookmark(id) ON DELETE CASCADE ON UPDATE CASCADE" +
                         ");";
         public static final String INSERT_BASIC_STATEMENT = "INSERT INTO WIFI_BOOKMARK (wifi_id, bookmark_id, created_at) VALUES (?, ?, ?);";
         public static final String SELECT_ALL = "SELECT * FROM WIFI_BOOKMARK;";

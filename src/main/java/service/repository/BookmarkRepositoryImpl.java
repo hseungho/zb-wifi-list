@@ -142,22 +142,22 @@ public class BookmarkRepositoryImpl extends BaseRepository<Bookmark, Long> imple
     @Override
     public boolean existsById(Long id) {
         String query = SQLConstants.BOOKMARK_TABLE.EXISTS_WHERE_ID;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-        boolean exists = false;
-        try {
-            preparedStatement = getTxConnection().prepareStatement(query);
-            preparedStatement.setObject(1, id);
-            resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                exists = resultSet.getBoolean(1);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } finally {
-            close(preparedStatement, resultSet);
-        }
-        return exists;
+        return super.executeExistsById(query, id);
+//        PreparedStatement preparedStatement = null;
+//        ResultSet resultSet = null;
+//        boolean exists = false;
+//        try {
+//            preparedStatement = getTxConnection().prepareStatement(query);
+//            resultSet = super.executeQuery(preparedStatement, id);
+//            if (resultSet.next()) {
+//                exists = resultSet.getBoolean(1);
+//            }
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        } finally {
+//            close(preparedStatement, resultSet);
+//        }
+//        return exists;
     }
 
 }

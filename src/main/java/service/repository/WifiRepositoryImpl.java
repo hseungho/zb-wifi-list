@@ -165,4 +165,24 @@ public class WifiRepositoryImpl extends BaseRepository<Wifi, String> implements 
             close(preparedStatement);
         }
     }
+
+    @Override
+    public boolean existsAtLeastOne() {
+        String query = SQLConstants.WIFI_TABLE.EXISTS_AT_LEAST_ONE;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        boolean exists = false;
+        try {
+            preparedStatement = getTxConnection().prepareStatement(query);
+            resultSet = super.executeQuery(preparedStatement);
+            if (resultSet.next()) {
+                exists = resultSet.getBoolean(1);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            close(preparedStatement, resultSet);
+        }
+        return exists;
+    }
 }

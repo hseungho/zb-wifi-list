@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import service.controller.dto.HistorySaveRequestDto;
 import service.controller.dto.WifiDistanceResponseDto;
+import service.controller.dto.WifiExistsResponseDto;
 import service.entity.History;
 import service.entity.Wifi;
 import service.repository.HistoryRepository;
@@ -39,7 +40,8 @@ public class WifiFindServiceImpl implements WifiFindService {
                 .filter(wifi -> wifi.getLat() > 0 && wifi.getLnt() > 0)
                 .map(wifi -> WifiDistanceResponseDto.of(wifi.calcDistance(lat, lnt), wifi))
                 .sorted(Comparator.comparing(WifiDistanceResponseDto::getDistance))
-                .collect(Collectors.toList());
+                .collect(Collectors.toList())
+                .subList(0, 20);
 
         historyRepository.save(History.of(new HistorySaveRequestDto(lat, lnt)));
 
@@ -52,6 +54,11 @@ public class WifiFindServiceImpl implements WifiFindService {
                 .orElseThrow(() -> new RuntimeException("NO Data"));
 
         return WifiDistanceResponseDto.of(0.0000, wifi);
+    }
+
+    @Override
+    public WifiExistsResponseDto existsAnyWifiData() {
+        return WifiExistsResponseDto.of(wifiRepository.existsAtLeastOne());
     }
 
 

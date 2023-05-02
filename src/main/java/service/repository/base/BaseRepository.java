@@ -74,6 +74,23 @@ public abstract class BaseRepository<T, ID> implements CrudRepository<T, ID> {
         }
     }
 
+    protected boolean executeExistsById(String query, Object id) {
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        boolean exists = false;
+        try {
+            preparedStatement = getTxConnection().prepareStatement(query);
+            resultSet = executeQuery(preparedStatement, id);
+            if (resultSet.next()) {
+                exists = resultSet.getBoolean(1);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            close(preparedStatement, resultSet);
+        }
+        return exists;
+    }
 
     protected void close(ResultSet resultSet) {
         if (resultSet != null) {

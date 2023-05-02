@@ -106,6 +106,8 @@ public class WifiBookmarkRepositoryImpl extends BaseRepository<WifiBookmark, Lon
         }
     }
 
+
+
     @Override
     public WifiBookmark update(WifiBookmark entity) {
 
@@ -121,6 +123,7 @@ public class WifiBookmarkRepositoryImpl extends BaseRepository<WifiBookmark, Lon
     public boolean existsById(Long aLong) {
         return false;
     }
+
 
     @Override
     public void deleteById(Long aLong) {

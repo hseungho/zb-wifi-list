@@ -3,8 +3,6 @@ package service.controller.dto;
 import lombok.*;
 import service.entity.Wifi;
 
-import java.time.LocalDateTime;
-
 @Getter
 @ToString
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -27,11 +25,11 @@ public class WifiDistanceResponseDto {
     private String connectEnv;
     private Double lat;
     private Double lnt;
-    private LocalDateTime workedAt;
+    private String workedAt;
 
     public static WifiDistanceResponseDto of(Double distance, Wifi wifi) {
         WifiDistanceResponseDto dto = new WifiDistanceResponseDto();
-        dto.distance = distance;
+        dto.distance = Math.round(distance*10000)/10000.0;
         dto.entityOf(wifi);
         return dto;
     }
@@ -52,7 +50,7 @@ public class WifiDistanceResponseDto {
         this.connectEnv = entity.getConnectEnv();
         this.lat = entity.getLat();
         this.lnt = entity.getLnt();
-        this.workedAt = entity.getWorkedAt();
+        this.workedAt = entity.getWorkedAt().toString();
         return this;
     }
 

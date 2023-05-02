@@ -33,7 +33,19 @@ public class Wifi {
     private LocalDateTime workedAt;
 
     public Double calcDistance(Double oLat, Double oLnt) {
-        return Math.sqrt(Math.pow(oLat - this.lat, 2) + Math.pow(oLnt - this.lnt, 2));
+        double theta = this.lnt - oLnt;
+        double dist = Math.sin(deg2rad(this.lat)) * Math.sin(deg2rad(oLat))
+                + Math.cos(deg2rad(this.lat)) * Math.cos(deg2rad(oLat)) * Math.cos(deg2rad(theta));
+        dist = Math.acos(dist);
+        dist = rad2deg(dist);
+        dist = dist * 60 * 1.1515 * 1.609344;
+        return dist;
+    }
+    private Double deg2rad(Double deg) {
+        return (deg * Math.PI / 180.0);
+    }
+    private Double rad2deg(Double rad) {
+        return (rad * 180 / Math.PI);
     }
 
 

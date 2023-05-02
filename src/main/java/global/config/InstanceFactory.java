@@ -2,10 +2,7 @@ package global.config;
 
 import service.applicationservice.bookmark.*;
 import service.applicationservice.history.*;
-import service.applicationservice.wifi.WifiFindService;
-import service.applicationservice.wifi.WifiFindServiceImpl;
-import service.applicationservice.wifi.WifiSaveService;
-import service.applicationservice.wifi.WifiSaveServiceImpl;
+import service.applicationservice.wifi.*;
 import service.applicationservice.wifibookmark.*;
 import service.repository.*;
 import service.repository.base.ConnectionPool;
@@ -34,6 +31,15 @@ public class InstanceFactory {
         }
         private static class LazyHolder {
             private static final WifiFindService INSTANCE = new WifiFindServiceImpl();
+        }
+    }
+
+    public static class WifiDeleteServiceFactory {
+        public static WifiDeleteService getInstance() {
+            return LazyHolder.INSTANCE;
+        }
+        private static class LazyHolder {
+            private static final WifiDeleteService INSTANCE = new WifiDeleteServiceImpl();
         }
     }
 

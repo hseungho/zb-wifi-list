@@ -63,7 +63,7 @@
             });
 
         function deleteBookmark() {
-            if (!confirm('북마크 그룹을 삭제하면 북마크한 WIFI 정보도 삭제됩니다.\n정말 삭제하시겠습니까?')) {
+            if (confirm('북마크 그룹을 삭제하면 북마크한 WIFI 정보도 삭제됩니다.\n정말 삭제하시겠습니까?')) {
                 const bookmarkId = event.target.dataset.id;
                 const url = encodeURI(`/bookmark?id=${'${bookmarkId}'}`);
                 fetch(url, { method: 'DELETE' })

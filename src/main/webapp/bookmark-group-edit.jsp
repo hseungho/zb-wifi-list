@@ -26,7 +26,7 @@
         </table>
         <div style="display: flex; flex-direction: column; border-collapse: collapse;">
             <div style="margin: auto">
-                <a href="/bookmark-group.jsp">돌아가기</a> | <button onclick="updateBookmark()">수정</button>
+                <a href="javascript:history.go(-1)">돌아가기</a> | <button onclick="updateBookmark()">수정</button>
             </div>
         </div>
     </div>
@@ -63,7 +63,7 @@
             }
             if (name === originName && order === originOrder) {
                 if (confirm('수정된 사항이 없습니다. 이전 페이지로 돌아가시겠습니까?')) {
-                    window.location.href = 'bookmark-group.jsp';
+                    history.go(-1);
                 }
                 return;
             }

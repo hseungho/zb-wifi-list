@@ -27,7 +27,6 @@ public class WifiSaveServiceImpl implements WifiSaveService {
     public WifiSaveResponseDto getOpenApiWifiListAndSave() {
         if (wifiRepository.existsAtLeastOne()) {
             wifiRepository.deleteAll();
-            System.out.println("WIFI SAVE SERVICE: 데이터 삭제");
         }
 
         List<Wifi> wifiInfo = openApiWifiAdapter.getWifiInfo();

@@ -24,7 +24,7 @@
         </table>
         <div style="display: flex; flex-direction: column; border-collapse: collapse;">
             <div style="margin: auto">
-                <a href="/wifi-bookmark-list.jsp">돌아가기</a> | <button onclick="deleteWifiBookmark()">삭제</button>
+                <a href="javascript:history.go(-1)">돌아가기</a> | <button onclick="deleteWifiBookmark()">삭제</button>
             </div>
         </div>
     </div>

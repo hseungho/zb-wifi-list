@@ -3,6 +3,7 @@ package service.repository.base;
 import global.config.DBConfig;
 import org.jetbrains.annotations.NotNull;
 import org.sqlite.SQLiteConfig;
+import org.sqlite.SQLiteConnection;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -26,12 +27,11 @@ public class ConnectionPool {
             Connection connection = createConnection(config);
             pool.add(connection);
         }
-        System.out.println("INFO: create db connection pool total: " + poolSize);
     }
 
     @NotNull
     public static Connection createConnection(SQLiteConfig config) throws SQLException {
-        Connection connection = DriverManager.getConnection(DBConfig.SQLITE_FILE_DB_URL, config.toProperties());
+        Connection connection = DriverManager.getConnection(DBConfig.SQLITE_MEMORY_DB_URL, config.toProperties());
         connection.setAutoCommit(DBConfig.OPT_AUTO_COMMIT);
         return connection;
     }

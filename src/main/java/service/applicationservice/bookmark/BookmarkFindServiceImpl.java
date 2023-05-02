@@ -28,7 +28,6 @@ public class BookmarkFindServiceImpl implements BookmarkFindService {
 
     @Override
     public BookmarkResponseDto getBookmarkById(Long id) {
-        System.out.println("GET BOOKMARK BY ID");
         Bookmark bookmark = bookmarkRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("NO BOOKMARK DATA"));
 

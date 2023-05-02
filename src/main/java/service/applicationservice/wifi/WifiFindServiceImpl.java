@@ -30,9 +30,7 @@ public class WifiFindServiceImpl implements WifiFindService {
     @Transactional
     public List<WifiDistanceResponseDto> getDistanceWifiList(Double lat, Double lnt) {
         List<Wifi> wifis = wifiRepository.findAll();
-
         if (wifis.isEmpty()) {
-            System.err.println("NO Wifi data!!");
             return null;
         }
 

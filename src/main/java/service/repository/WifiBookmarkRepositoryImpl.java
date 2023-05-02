@@ -59,7 +59,22 @@ public class WifiBookmarkRepositoryImpl extends BaseRepository<WifiBookmark, Lon
     }
 
     @Override
-    public Optional<WifiBookmark> findById(Long aLong) {
+    public Optional<WifiBookmark> findById(Long id) {
+        String query = SQLConstants.WIFI_BOOKMARK_TABLE.SELECT_WHERE_ID_JOIN_WIFI_JOIN_BOOKMARK;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            preparedStatement = getTxConnection().prepareStatement(query);
+            resultSet = super.executeQuery(preparedStatement, id);
+            if (resultSet.next()) {
+                WifiBookmark wifiBookmark = convertWifiBookmark(resultSet);
+                return Optional.of(wifiBookmark);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            close(preparedStatement, resultSet);
+        }
         return Optional.empty();
     }
 
@@ -84,51 +99,39 @@ public class WifiBookmarkRepositoryImpl extends BaseRepository<WifiBookmark, Lon
         }
     }
 
-
-    @Override
-    public List<WifiBookmark> findListByBookmarkId(Long id) {
-        String query = SQLConstants.WIFI_BOOKMARK_TABLE.SELECT_WHERE_BOOKMARK_ID;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-        try {
-            preparedStatement = getTxConnection().prepareStatement(query);
-            resultSet = super.executeQuery(preparedStatement, id);
-            List<WifiBookmark> wifiBookmarks = new ArrayList<>();
-            while (resultSet.next()) {
-                WifiBookmark wifiBookmark = convertWifiBookmark(resultSet);
-                wifiBookmarks.add(wifiBookmark);
-            }
-            return wifiBookmarks;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } finally {
-            close(preparedStatement, resultSet);
-        }
-    }
-
-
-
     @Override
     public WifiBookmark update(WifiBookmark entity) {
-
         return null;
     }
 
     @Override
     public void delete(WifiBookmark entity) {
-
+        deleteById(entity.getId());
     }
 
     @Override
-    public boolean existsById(Long aLong) {
-        return false;
+    public void deleteById(Long id) {
+        if (!existsById(id)) {
+            throw new RuntimeException("NO WIFI_BOOKMARK DATA that id: "+ id);
+        }
+        String query = SQLConstants.WIFI_BOOKMARK_TABLE.DELETE_WHERE_ID;
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = getTxConnection().prepareStatement(query);
+            super.executeUpdate(preparedStatement, id);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            close(preparedStatement);
+        }
     }
-
 
     @Override
-    public void deleteById(Long aLong) {
-
+    public boolean existsById(Long id) {
+        String query = SQLConstants.WIFI_BOOKMARK_TABLE.EXISTS_WHERE_ID;
+        return super.executeExistsById(query, id);
     }
+
 
     @NotNull
     private static WifiBookmark convertWifiBookmark(ResultSet resultSet) throws SQLException {
@@ -139,6 +142,7 @@ public class WifiBookmarkRepositoryImpl extends BaseRepository<WifiBookmark, Lon
 
         Bookmark bookmark = Bookmark.wifiBookmarkOf(resultSet);
         wifiBookmark.associate(bookmark);
+
         return wifiBookmark;
     }
 

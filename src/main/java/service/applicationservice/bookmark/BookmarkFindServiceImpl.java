@@ -25,4 +25,13 @@ public class BookmarkFindServiceImpl implements BookmarkFindService {
                 .map(BookmarkResponseDto::of)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public BookmarkResponseDto getBookmarkById(Long id) {
+        System.out.println("GET BOOKMARK BY ID");
+        Bookmark bookmark = bookmarkRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("NO BOOKMARK DATA"));
+
+        return BookmarkResponseDto.of(bookmark);
+    }
 }

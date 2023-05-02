@@ -3,6 +3,7 @@ package service.applicationservice.wifibookmark;
 import global.config.InstanceFactory;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import service.controller.dto.WifiBookmarkSaveRequestDto;
 import service.controller.dto.WifiBookmarkSaveResponseDto;
 import service.repository.WifiBookmarkRepository;
 
@@ -19,7 +20,7 @@ class WifiBookmarkSaveServiceImplTest {
         String wifiId = "---EP000001";
         Long bookmarkId = 1L;
 
-        WifiBookmarkSaveResponseDto save = wifiBookmarkSaveService.saveWifiBookmark(wifiId, bookmarkId);
+        WifiBookmarkSaveResponseDto save = wifiBookmarkSaveService.saveWifiBookmark(WifiBookmarkSaveRequestDto.of(wifiId, bookmarkId));
 
         wifiBookmarkRepository.deleteById(save.getId());
     }
@@ -42,7 +43,7 @@ class WifiBookmarkSaveServiceImplTest {
 
         List<WifiBookmarkSaveResponseDto> dtos = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
-            WifiBookmarkSaveResponseDto save = wifiBookmarkSaveService.saveWifiBookmark(wifiIds.get(i), bookmarkIds.get(i));
+            WifiBookmarkSaveResponseDto save = wifiBookmarkSaveService.saveWifiBookmark(WifiBookmarkSaveRequestDto.of(wifiIds.get(i), bookmarkIds.get(i)));
             dtos.add(save);
         }
 

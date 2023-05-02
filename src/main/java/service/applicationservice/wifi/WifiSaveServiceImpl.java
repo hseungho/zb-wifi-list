@@ -25,9 +25,9 @@ public class WifiSaveServiceImpl implements WifiSaveService {
 
     @Override
     public WifiSaveResponseDto getOpenApiWifiListAndSave() {
-        List<Wifi> existsWifis = wifiRepository.findAll();
-        if (!existsWifis.isEmpty()) {
-            throw new RuntimeException("이미 와이파이 정보가 있습니다.");
+        if (wifiRepository.existsAtLeastOne()) {
+            wifiRepository.deleteAll();
+            System.out.println("WIFI SAVE SERVICE: 데이터 삭제");
         }
 
         List<Wifi> wifiInfo = openApiWifiAdapter.getWifiInfo();

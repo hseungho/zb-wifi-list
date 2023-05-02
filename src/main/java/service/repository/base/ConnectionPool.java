@@ -2,7 +2,7 @@ package service.repository.base;
 
 import global.config.DBConfig;
 import org.jetbrains.annotations.NotNull;
-import org.sqlite.core.DB;
+import org.sqlite.SQLiteConfig;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -18,16 +18,20 @@ public class ConnectionPool {
         int poolSize = DBConfig.OPT_CONNECTION_POOL_MAX;
         pool = new ArrayBlockingQueue<>(poolSize);
         Class.forName(DBConfig.SQLITE_DRIVER);
+
+        SQLiteConfig config = new SQLiteConfig();
+        config.enforceForeignKeys(true);
+
         for (int i = 0; i < poolSize; i++) {
-            Connection connection = createConnection();
+            Connection connection = createConnection(config);
             pool.add(connection);
         }
         System.out.println("INFO: create db connection pool total: " + poolSize);
     }
 
     @NotNull
-    public static Connection createConnection() throws SQLException {
-        Connection connection = DriverManager.getConnection(DBConfig.SQLITE_FILE_DB_URL);
+    public static Connection createConnection(SQLiteConfig config) throws SQLException {
+        Connection connection = DriverManager.getConnection(DBConfig.SQLITE_FILE_DB_URL, config.toProperties());
         connection.setAutoCommit(DBConfig.OPT_AUTO_COMMIT);
         return connection;
     }

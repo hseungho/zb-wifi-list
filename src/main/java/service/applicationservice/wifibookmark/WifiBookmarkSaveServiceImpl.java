@@ -1,6 +1,7 @@
 package service.applicationservice.wifibookmark;
 
 import global.config.InstanceFactory;
+import service.controller.dto.WifiBookmarkSaveRequestDto;
 import service.controller.dto.WifiBookmarkSaveResponseDto;
 import service.entity.Bookmark;
 import service.entity.Wifi;
@@ -24,9 +25,9 @@ public class WifiBookmarkSaveServiceImpl implements WifiBookmarkSaveService {
 
     @Override
     @Transactional
-    public WifiBookmarkSaveResponseDto saveWifiBookmark(String wifiId, Long bookmarkId) {
-        Wifi wifi = wifiRepository.findById(wifiId).orElseThrow(() -> new RuntimeException("NO WIFI DATA"));
-        Bookmark bookmark = bookmarkRepository.findById(bookmarkId).orElseThrow(() -> new RuntimeException("NO BOOKMARK DATA"));
+    public WifiBookmarkSaveResponseDto saveWifiBookmark(WifiBookmarkSaveRequestDto dto) {
+        Wifi wifi = wifiRepository.findById(dto.getWifiId()).orElseThrow(() -> new RuntimeException("NO WIFI DATA"));
+        Bookmark bookmark = bookmarkRepository.findById(dto.getBookmarkId()).orElseThrow(() -> new RuntimeException("NO BOOKMARK DATA"));
 
         WifiBookmark wifiBookmark = WifiBookmark.of();
         wifiBookmark.associate(wifi);

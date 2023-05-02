@@ -1,7 +1,7 @@
 package service.controller;
 
 import global.config.InstanceFactory;
-import global.util.ResponseUtils;
+import global.util.ServletUtils;
 import service.applicationservice.wifi.WifiFindService;
 import service.controller.dto.WifiExistsResponseDto;
 
@@ -25,6 +25,6 @@ public class WifiExistsCheckController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         WifiExistsResponseDto responseDto = wifiFindService.existsAnyWifiData();
 
-        ResponseUtils.response(resp, responseDto);
+        ServletUtils.response(resp, responseDto);
     }
 }

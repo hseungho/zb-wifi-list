@@ -2,8 +2,8 @@ package service.controller;
 
 import global.config.InstanceFactory;
 import global.util.ServletUtils;
-import service.applicationservice.wifi.WifiFindService;
-import service.controller.dto.WifiDistanceResponseDto;
+import service.applicationservice.bookmark.BookmarkFindService;
+import service.controller.dto.BookmarkResponseDto;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,23 +11,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
-@WebServlet("/wifi")
-public class WifiController extends HttpServlet {
+@WebServlet("/bookmark/list")
+public class BookmarkListController extends HttpServlet {
 
-    private WifiFindService wifiFindService;
-
+    private BookmarkFindService bookmarkFindService;
     @Override
     public void init() throws ServletException {
-        wifiFindService = InstanceFactory.WifiFindServiceFactory.getInstance();
+        bookmarkFindService = InstanceFactory.BookmarkFindServiceFactory.getInstance();
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String id = req.getParameter("id");
+        List<BookmarkResponseDto> bookmarkList = bookmarkFindService.getBookmarkList();
 
-        WifiDistanceResponseDto wifi = wifiFindService.getWifiInfo(id);
-
-        ServletUtils.response(resp, wifi);
+        ServletUtils.response(resp, bookmarkList);
     }
 }

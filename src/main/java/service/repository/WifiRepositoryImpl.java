@@ -34,7 +34,6 @@ public class WifiRepositoryImpl extends BaseRepository<Wifi, String> implements 
 
     @Override
     public Wifi save(Wifi entity) {
-
         return null;
     }
 
@@ -81,18 +80,15 @@ public class WifiRepositoryImpl extends BaseRepository<Wifi, String> implements 
 
     @Override
     public Wifi update(Wifi entity) {
-
         return null;
     }
 
     @Override
     public void delete(Wifi entity) {
-
     }
 
     @Override
     public void deleteById(String id) {
-
     }
 
     @Override

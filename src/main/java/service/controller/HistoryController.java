@@ -1,7 +1,7 @@
 package service.controller;
 
 import global.config.InstanceFactory;
-import global.util.ResponseUtils;
+import global.util.ServletUtils;
 import service.applicationservice.history.HistoryDeleteService;
 import service.applicationservice.history.HistoryFindService;
 import service.controller.dto.HistoryResponseDto;
@@ -30,7 +30,7 @@ public class HistoryController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<HistoryResponseDto> histories = historyFindService.getAllHistories();
 
-        ResponseUtils.response(resp, histories);
+        ServletUtils.response(resp, histories);
     }
 
     @Override

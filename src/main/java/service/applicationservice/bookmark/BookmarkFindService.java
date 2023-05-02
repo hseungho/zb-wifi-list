@@ -8,4 +8,6 @@ public interface BookmarkFindService {
 
     List<BookmarkResponseDto> getBookmarkList();
 
+    BookmarkResponseDto getBookmarkById(Long id);
+
 }

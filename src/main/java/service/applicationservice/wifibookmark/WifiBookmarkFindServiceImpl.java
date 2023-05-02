@@ -21,8 +21,16 @@ public class WifiBookmarkFindServiceImpl implements WifiBookmarkFindService {
         List<WifiBookmark> wifiBookmarks = wifiBookmarkRepository.findAll();
 
         return wifiBookmarks.stream()
+                .sorted(Comparator.comparing(WifiBookmark::getId))
                 .map(WifiBookmarkResponseDto::of)
-                .sorted(Comparator.comparing(WifiBookmarkResponseDto::getBookmarkOrder))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public WifiBookmarkResponseDto getWifiBookmarkById(Long id) {
+        WifiBookmark wifiBookmark = wifiBookmarkRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("NO WIFI_BOOKMARK DATA"));
+
+        return WifiBookmarkResponseDto.of(wifiBookmark);
     }
 }

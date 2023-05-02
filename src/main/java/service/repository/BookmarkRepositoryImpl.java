@@ -126,7 +126,6 @@ public class BookmarkRepositoryImpl extends BaseRepository<Bookmark, Long> imple
         if (!existsById(id)) {
             throw new RuntimeException("No Bookmark Data that id :" + id);
         }
-
         String query = SQLConstants.BOOKMARK_TABLE.DELETE_WHERE_ID;
         PreparedStatement preparedStatement = null;
         try {
@@ -143,21 +142,6 @@ public class BookmarkRepositoryImpl extends BaseRepository<Bookmark, Long> imple
     public boolean existsById(Long id) {
         String query = SQLConstants.BOOKMARK_TABLE.EXISTS_WHERE_ID;
         return super.executeExistsById(query, id);
-//        PreparedStatement preparedStatement = null;
-//        ResultSet resultSet = null;
-//        boolean exists = false;
-//        try {
-//            preparedStatement = getTxConnection().prepareStatement(query);
-//            resultSet = super.executeQuery(preparedStatement, id);
-//            if (resultSet.next()) {
-//                exists = resultSet.getBoolean(1);
-//            }
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        } finally {
-//            close(preparedStatement, resultSet);
-//        }
-//        return exists;
     }
 
 }

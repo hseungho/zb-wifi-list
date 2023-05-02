@@ -1,7 +1,7 @@
 package service.controller;
 
 import global.config.InstanceFactory;
-import global.util.ResponseUtils;
+import global.util.ServletUtils;
 import service.applicationservice.wifi.WifiFindService;
 import service.controller.dto.WifiDistanceResponseDto;
 
@@ -31,7 +31,6 @@ public class WifiNearController extends HttpServlet {
         Double lnt = Double.parseDouble(lntStr);
 
         List<WifiDistanceResponseDto> wifiList = wifiFindService.getDistanceWifiList(lat, lnt);
-
-        ResponseUtils.response(resp, wifiList);
+        ServletUtils.response(resp, wifiList);
     }
 }

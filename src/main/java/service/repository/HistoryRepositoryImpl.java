@@ -97,7 +97,6 @@ public class HistoryRepositoryImpl extends BaseRepository<History, Long> impleme
 
     @Override
     public History update(History entity) {
-
         return null;
     }
 
@@ -107,12 +106,10 @@ public class HistoryRepositoryImpl extends BaseRepository<History, Long> impleme
     }
 
     @Override
-    public boolean existsById(Long aLong) {
-        return false;
-    }
-
-    @Override
     public void deleteById(Long id) {
+        if (!existsById(id)) {
+            throw new RuntimeException("No History Data that id :" + id);
+        }
         String query = SQLConstants.HISTORY_TABLE.DELETE_WHERE_ID;
         PreparedStatement preparedStatement = null;
         try {
@@ -123,6 +120,12 @@ public class HistoryRepositoryImpl extends BaseRepository<History, Long> impleme
         } finally {
             close(preparedStatement);
         }
+    }
+
+    @Override
+    public boolean existsById(Long id) {
+        String query = SQLConstants.HISTORY_TABLE.EXISTS_WHERE_ID;
+        return super.executeExistsById(query, id);
     }
 
 }

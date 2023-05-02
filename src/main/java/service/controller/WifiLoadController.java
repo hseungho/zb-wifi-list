@@ -1,7 +1,7 @@
 package service.controller;
 
 import global.config.InstanceFactory;
-import global.util.ResponseUtils;
+import global.util.ServletUtils;
 import service.applicationservice.wifi.WifiDeleteService;
 import service.applicationservice.wifi.WifiSaveService;
 import service.controller.dto.WifiSaveResponseDto;
@@ -31,6 +31,6 @@ public class WifiLoadController extends HttpServlet {
 
         WifiSaveResponseDto saveDto = wifiSaveService.getOpenApiWifiListAndSave();
 
-        ResponseUtils.response(resp, saveDto);
+        ServletUtils.response(resp, saveDto);
     }
 }

@@ -2,12 +2,13 @@
 <html>
   <head>
     <title>와이파이 정보 구하기</title>
-    <link rel="stylesheet" href="css/table.css">
+    <link rel="stylesheet" href="css/horizontal_table.css">
   </head>
   <body>
     <h1>와이파이 정보 구하기</h1>
-    <a href="/">홈</a> | <a href="/history.jsp">위치 히스토리 목록</a> | <a href="/load-wifi.jsp">Open API 와이파이 정보 가져오기</a>
-    <br><br>
+    <div class="header">
+      <jsp:include page="component/header.jsp"/>
+    </div>
     <form method="GET" id="wifi-form">
       <label for="LAT">LAT:</label> <input type="text" id="LAT" name="LAT" value="0.0">
       <label for="LNT">LNT:</label> <input type="text" id="LNT" name="LNT" value="0.0">
@@ -43,14 +44,22 @@
       </tbody>
     </table>
 
-  </body>
 
-  <script>
-    function getLocation() {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition);
-      } else {
-        alert("이 브라우저로는 현재 위치 정보를 가져올 수 없습니다.");
+    <script>
+      const params = new URLSearchParams(window.location.search);
+      const lat = params.get('lat');
+      const lnt = params.get("lnt");
+      if (lat !== null && lnt !== null) {
+        document.getElementById("LAT").value = lat;
+        document.getElementById("LNT").value = lnt;
+        getNearWifiList();
+      }
+
+      function getLocation() {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+          alert("이 브라우저로는 현재 위치 정보를 가져올 수 없습니다.");
       }
     }
 
@@ -72,43 +81,48 @@
               .map(k => encodeURIComponent(k) + "=" + encodeURIComponent(params[k]))
               .join("&");
       const url = `/wifi/near?`+query;
-      fetch(url)
-              .then(response => response.json())
-              .then(data => {
-                const wifiList = data;
-                const tbody = document.querySelector('table tbody');
-                tbody.innerHTML = '';
-                if (wifiList.length > 0) {
-                  wifiList.forEach(wifi => {
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `
-                      <td>${'${wifi.distance}'}</td>
-                      <td>${'${wifi.id}'}</td>
-                      <td>${'${wifi.district}'}</td>
-                      <td><a href="wifi-detail.jsp?id=${'${wifi.id}'}">${'${wifi.name}'}</a></td>
-                      <td>${'${wifi.address1}'}</td>
-                      <td>${'${wifi.address2}'}</td>
-                      <td>${'${wifi.instlFloor}'}</td>
-                      <td>${'${wifi.instlType}'}</td>
-                      <td>${'${wifi.instlOrg}'}</td>
-                      <td>${'${wifi.serviceClass}'}</td>
-                      <td>${'${wifi.netType}'}</td>
-                      <td>${'${wifi.instlYear}'}</td>
-                      <td>${'${wifi.inOutType}'}</td>
-                      <td>${'${wifi.connectEnv}'}</td>
-                      <td>${'${wifi.lat}'}</td>
-                      <td>${'${wifi.lnt}'}</td>
-                      <td>${'${wifi.workedAt}'}</td>
-                    `;
-                    tbody.appendChild(tr);
-                  });
-                }
-              })
-              .catch(error => {
-                console.error('Error:', error);
-                alert('WIFI 정보를 가져오는 중 오류가 발생했습니다.');
-              });
+      fetch(url, { method: 'GET' })
+        .then(response => response.json())
+        .then(data => {
+          const wifiList = data;
+          const tbody = document.querySelector('table tbody');
+          tbody.innerHTML = '';
+          if (wifiList !== null && wifiList.length > 0) {
+            wifiList.forEach(wifi => {
+              const tr = document.createElement('tr');
+              tr.innerHTML = `
+                <td>${'${wifi.distance}'}</td>
+                <td>${'${wifi.id}'}</td>
+                <td>${'${wifi.district}'}</td>
+                <td><a href="wifi-detail.jsp?id=${'${wifi.id}'}">${'${wifi.name}'}</a></td>
+                <td>${'${wifi.address1}'}</td>
+                <td>${'${wifi.address2}'}</td>
+                <td>${'${wifi.instlFloor}'}</td>
+                <td>${'${wifi.instlType}'}</td>
+                <td>${'${wifi.instlOrg}'}</td>
+                <td>${'${wifi.serviceClass}'}</td>
+                <td>${'${wifi.netType}'}</td>
+                <td>${'${wifi.instlYear}'}</td>
+                <td>${'${wifi.inOutType}'}</td>
+                <td>${'${wifi.connectEnv}'}</td>
+                <td>${'${wifi.lat}'}</td>
+                <td>${'${wifi.lnt}'}</td>
+                <td>${'${wifi.workedAt}'}</td>
+              `;
+              tbody.appendChild(tr);
+            });
+          } else {
+            if (confirm('WIFI 데이터가 없습니다. WIFI를 저장하시겠습니까?')) {
+              window.location.href = 'load-wifi.jsp';
+            }
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('WIFI 정보를 가져오는 중 오류가 발생했습니다.');
+        });
 
     }
   </script>
+  </body>
 </html>

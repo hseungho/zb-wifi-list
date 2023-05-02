@@ -8,4 +8,6 @@ public interface WifiBookmarkFindService {
 
     List<WifiBookmarkResponseDto> getWifiBookmarkList();
 
+    WifiBookmarkResponseDto getWifiBookmarkById(Long id);
+
 }

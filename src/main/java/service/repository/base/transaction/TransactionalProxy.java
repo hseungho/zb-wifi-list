@@ -7,6 +7,13 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.sql.Connection;
 
+/**
+ * Service 의 실행 메소드 단위로 트랜잭션을 구현하고 싶어서<br>
+ * Spring 의 @Transactional 을 구현하기 위해 만든 클래스인데,<br>
+ * 테스트 결과, 실제로 한 메소드 안에서 한 커넥션을 가지고 트랜잭션이 구현되진 않음.<br>
+ * <br>
+ * 다만 SQLite의 Busy wait 문제는 해결하였기에 사용함.
+ */
 public class TransactionalProxy implements InvocationHandler {
 
     private final Object target;

@@ -10,7 +10,6 @@ import service.entity.History;
 import service.entity.Wifi;
 import service.repository.HistoryRepository;
 import service.repository.WifiRepository;
-import service.repository.base.transaction.Transactional;
 
 import java.util.Comparator;
 import java.util.List;
@@ -27,7 +26,6 @@ public class WifiFindServiceImpl implements WifiFindService {
     }
 
     @Override
-    @Transactional
     public List<WifiDistanceResponseDto> getDistanceWifiList(Double lat, Double lnt) {
         List<Wifi> wifis = wifiRepository.findAll();
         if (wifis.isEmpty()) {

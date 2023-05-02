@@ -9,7 +9,6 @@ import service.entity.WifiBookmark;
 import service.repository.BookmarkRepository;
 import service.repository.WifiBookmarkRepository;
 import service.repository.WifiRepository;
-import service.repository.base.transaction.Transactional;
 
 public class WifiBookmarkSaveServiceImpl implements WifiBookmarkSaveService {
 
@@ -24,7 +23,6 @@ public class WifiBookmarkSaveServiceImpl implements WifiBookmarkSaveService {
     }
 
     @Override
-    @Transactional
     public WifiBookmarkSaveResponseDto saveWifiBookmark(WifiBookmarkSaveRequestDto dto) {
         Wifi wifi = wifiRepository.findById(dto.getWifiId()).orElseThrow(() -> new RuntimeException("NO WIFI DATA"));
         Bookmark bookmark = bookmarkRepository.findById(dto.getBookmarkId()).orElseThrow(() -> new RuntimeException("NO BOOKMARK DATA"));

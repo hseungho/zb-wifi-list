@@ -76,7 +76,6 @@
               .then(response => response.json())
               .then(data => {
                 const wifiList = data;
-                console.log(wifiList)
                 const tbody = document.querySelector('table tbody');
                 tbody.innerHTML = '';
                 if (wifiList.length > 0) {
@@ -86,7 +85,7 @@
                       <td>${'${wifi.distance}'}</td>
                       <td>${'${wifi.id}'}</td>
                       <td>${'${wifi.district}'}</td>
-                      <td>${'${wifi.name}'}</td>
+                      <td><a href="wifi-detail.jsp?id=${'${wifi.id}'}">${'${wifi.name}'}</a></td>
                       <td>${'${wifi.address1}'}</td>
                       <td>${'${wifi.address2}'}</td>
                       <td>${'${wifi.instlFloor}'}</td>

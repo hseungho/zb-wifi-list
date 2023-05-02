@@ -64,13 +64,12 @@
 
         function deleteBookmark() {
             if (!confirm('북마크 그룹을 삭제하면 북마크한 WIFI 정보도 삭제됩니다.\n정말 삭제하시겠습니까?')) {
-                return;
-            }
                 const bookmarkId = event.target.dataset.id;
                 const url = encodeURI(`/bookmark?id=${'${bookmarkId}'}`);
                 fetch(url, { method: 'DELETE' })
                     .then(() => window.location.reload())
                     .catch(err => console.log(err));
+            }
         }
     </script>
 </body>

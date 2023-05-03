@@ -13,25 +13,29 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
 public class ConnectionPool {
+
     private final BlockingQueue<Connection> pool;
 
     public ConnectionPool() throws SQLException, ClassNotFoundException {
         int poolSize = DBConfig.OPT_CONNECTION_POOL_MAX;
+
         pool = new ArrayBlockingQueue<>(poolSize);
         Class.forName(DBConfig.SQLITE_DRIVER);
+
+        String url = DBConfig.OPT_USING_FILE ? DBConfig.SQLITE_FILE_DB_URL : DBConfig.SQLITE_MEMORY_DB_URL;
 
         SQLiteConfig config = new SQLiteConfig();
         config.enforceForeignKeys(true);
 
         for (int i = 0; i < poolSize; i++) {
-            Connection connection = createConnection(config);
+            Connection connection = createConnection(url, config);
             pool.add(connection);
         }
     }
 
     @NotNull
-    public static Connection createConnection(SQLiteConfig config) throws SQLException {
-        Connection connection = DriverManager.getConnection(DBConfig.SQLITE_MEMORY_DB_URL, config.toProperties());
+    public static Connection createConnection(String url, SQLiteConfig config) throws SQLException {
+        Connection connection = DriverManager.getConnection(url, config.toProperties());
         connection.setAutoCommit(DBConfig.OPT_AUTO_COMMIT);
         return connection;
     }

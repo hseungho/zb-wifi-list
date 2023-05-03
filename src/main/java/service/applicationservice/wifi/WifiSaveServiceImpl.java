@@ -19,7 +19,7 @@ public class WifiSaveServiceImpl implements WifiSaveService {
     private final WifiRepository wifiRepository;
 
     public WifiSaveServiceImpl() {
-        openApiWifiAdapter = OpenApiWifiAdapter.getInstance();
+        openApiWifiAdapter = InstanceFactory.OpenApiWifiAdapterFactory.getInstance();
         wifiRepository = InstanceFactory.WifiRepositoryFactory.getInstance();
     }
 

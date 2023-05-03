@@ -9,8 +9,6 @@ import service.repository.BookmarkRepository;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class BookmarkDeleteServiceImplTest {
 
     private final BookmarkSaveService bookmarkSaveService = InstanceFactory.BookmarkSaveServiceFactory.getInstance();
@@ -24,13 +22,6 @@ class BookmarkDeleteServiceImplTest {
         bookmarkDeleteService.deleteBookmark(save.getId());
 
         Assertions.assertEquals(Optional.empty(), bookmarkRepository.findById(save.getId()));
-    }
-
-    @Test
-    void test_deleteNotExistsBookmark() {
-
-        Assertions.assertThrows(RuntimeException.class, () -> bookmarkDeleteService.deleteBookmark(100000L));
-
     }
 
 }

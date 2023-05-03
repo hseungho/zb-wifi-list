@@ -1,5 +1,7 @@
 package global.config;
 
+import global.adapter.openapi.OpenApiWifiAdapter;
+import global.adapter.openapi.OpenApiWifiAdapterImpl;
 import service.applicationservice.bookmark.*;
 import service.applicationservice.history.*;
 import service.applicationservice.wifi.*;
@@ -201,6 +203,18 @@ public class InstanceFactory {
                     new Class[] { WifiBookmarkRepository.class },
                     new TransactionalProxy(new WifiBookmarkRepositoryImpl(ConnectionPoolFactory.getInstance()))
             );
+        }
+    }
+
+    /////////////////////////////////////////////////////////////////////////
+    // Utils
+
+    public static class OpenApiWifiAdapterFactory {
+        public static OpenApiWifiAdapter getInstance() {
+            return LazyHolder.INSTANCE;
+        }
+        private static class LazyHolder {
+            private static final OpenApiWifiAdapter INSTANCE = new OpenApiWifiAdapterImpl();
         }
     }
 

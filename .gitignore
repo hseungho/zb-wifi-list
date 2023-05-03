@@ -4,4 +4,3 @@ out
 sqlite3.exe
 *.iml
 build
-wifi.db

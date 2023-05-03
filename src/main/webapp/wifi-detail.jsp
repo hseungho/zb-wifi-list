@@ -15,35 +15,105 @@
     </select>
     <button onclick="saveWifiBookmark()">북마크 추가하기</button>
 
-    <div class="table-container">
-        <table>
-            <thead>
-                <tr style="height: 30px">
-                    <th>거리(km)</th>
-                    <th>관리번호</th>
-                    <th>자치구</th>
-                    <th>와이파이명</th>
-                    <th>도로명주소</th>
-                    <th>상세주소</th>
-                    <th>설치위치(층)</th>
-                    <th>설치유형</th>
-                    <th>설치기관</th>
-                    <th>서비스구분</th>
-                    <th>망종류</th>
-                    <th>설치년도</th>
-                    <th>실내외구분</th>
-                    <th>WIFI접속환경</th>
-                    <th>X좌표</th>
-                    <th>Y좌표</th>
-                    <th>작업일자</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+    <table id="vertical-1" class="table table-horizontal table-bordered">
+        <tr>
+            <th>거리(km)</th>
+            <td id ="distance"></td>
+        </tr>
+        <tr>
+            <th>관리번호</th>
+            <td id ="mgrNo"></td>
+        </tr>
+        <tr>
+            <th>지역구</th>
+            <td id ="WRDOFC"></td>
+        </tr>
+        <tr>
+            <th>와이파이명</th>
+            <td id ="name"></td>
+        </tr>
+        <tr>
+            <th>도로명주소</th>
+            <td id ="streetAddress"></td>
+        </tr>
+        <tr>
+            <th>상세주소</th>
+            <td id ="detailAddress"></td>
+        </tr>
+        <tr>
+            <th>설치위치(층)</th>
+            <td id ="installFloor"></td>
+        </tr>
+        <tr>
+            <th>설치유형</th>
+            <td id ="installType"></td>
+        </tr>
+        <tr>
+            <th>설치기관</th>
+            <td id ="installMby"></td>
+        </tr>
+        <tr>
+            <th>서비스구분</th>
+            <td id ="svcEc"></td>
+        </tr>
+        <tr>
+            <th>망종류</th>
+            <td id ="cmcwr"></td>
+        </tr>
+        <tr>
+            <th>설치년도</th>
+            <td id ="cnstcYear"></td>
+        </tr>
+        <tr>
+            <th>실내외구분</th>
+            <td id ="inoutDoor"></td>
+        </tr>
+        <tr>
+            <th>WIFI환경</th>
+            <td id ="remars3"></td>
+        </tr>
+        <tr>
+            <th>X좌표</th>
+            <td id ="longitude"></td>
+        </tr>
+        <tr>
+            <th>Y좌표</th>
+            <td id ="latitude"></td>
+        </tr>
+        <tr>
+            <th>작업일자</th>
+            <td id ="workDttm"></td>
+        </tr>
+    </table>
+<%--    <div class="table-container">--%>
+<%--        <table>--%>
+<%--            <thead>--%>
+<%--                <tr style="height: 30px">--%>
+<%--                    <th>거리(km)</th>--%>
+<%--                    <th>관리번호</th>--%>
+<%--                    <th>자치구</th>--%>
+<%--                    <th>와이파이명</th>--%>
+<%--                    <th>도로명주소</th>--%>
+<%--                    <th>상세주소</th>--%>
+<%--                    <th>설치위치(층)</th>--%>
+<%--                    <th>설치유형</th>--%>
+<%--                    <th>설치기관</th>--%>
+<%--                    <th>서비스구분</th>--%>
+<%--                    <th>망종류</th>--%>
+<%--                    <th>설치년도</th>--%>
+<%--                    <th>실내외구분</th>--%>
+<%--                    <th>WIFI접속환경</th>--%>
+<%--                    <th>X좌표</th>--%>
+<%--                    <th>Y좌표</th>--%>
+<%--                    <th>작업일자</th>--%>
+<%--                </tr>--%>
+<%--            </thead>--%>
+<%--            <tbody>--%>
+<%--                <tr>--%>
+<%--                </tr>--%>
+<%--            </tbody>--%>
+<%--        </table>--%>
+<%--    </div>--%>
 
     <script>
         const bookmarkListFetchUrl = encodeURI('/bookmark/list');

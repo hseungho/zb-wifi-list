@@ -2,6 +2,7 @@ package global.config;
 
 public class DBConfig {
 
+    public static final boolean OPT_USING_FILE = false;
     public static final String SQLITE_DRIVER = "org.sqlite.JDBC";
     private static final String PROJECT_ABSOLUTE_PATH = System.getProperty("user.dir");
     private static final String SQLITE_FILE_PATH = PROJECT_ABSOLUTE_PATH + "\\wifi.db";

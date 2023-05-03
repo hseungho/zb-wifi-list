@@ -12,12 +12,15 @@ import java.util.List;
 
 class WifiFindServiceImplTest {
 
+    private final WifiSaveService wifiSaveService = InstanceFactory.WifiSaveServiceFactory.getInstance();
     private final WifiFindService wifiFindService = InstanceFactory.WifiFindServiceFactory.getInstance();
     private final WifiRepository wifiRepository = InstanceFactory.WifiRepositoryFactory.getInstance();
     private final HistoryRepository historyRepository = InstanceFactory.HistoryRepositoryFactory.getInstance();
 
     @Test
     void test_getDistanceWifiList() {
+        wifiSaveService.getOpenApiWifiListAndSave();
+
         Double lat = 37.5544069;
         Double lnt = 126.8998666;
         List<WifiDistanceResponseDto> dtos = wifiFindService.getDistanceWifiList(lat, lnt);
@@ -34,6 +37,8 @@ class WifiFindServiceImplTest {
 
     @Test
     void test_getWifiInfo() {
+        wifiSaveService.getOpenApiWifiListAndSave();
+
         String id = "---EP000001";
 
         WifiDistanceResponseDto wifiInfo = wifiFindService.getWifiInfo(id);

@@ -4,6 +4,7 @@ import global.config.InstanceFactory;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import service.controller.dto.WifiDistanceResponseDto;
+import service.controller.dto.WifiNearResponseDto;
 import service.entity.History;
 import service.repository.HistoryRepository;
 import service.repository.WifiRepository;
@@ -23,10 +24,11 @@ class WifiFindServiceImplTest {
 
         Double lat = 37.5544069;
         Double lnt = 126.8998666;
-        List<WifiDistanceResponseDto> dtos = wifiFindService.getDistanceWifiList(lat, lnt);
+        WifiNearResponseDto dtos = wifiFindService.getDistanceWifiList(lat, lnt, 1);
 
         Assertions.assertNotNull(dtos);
-        Assertions.assertFalse(dtos.isEmpty());
+        Assertions.assertNotEquals(0, dtos.getTotalItems());
+        Assertions.assertFalse(dtos.getWifiList().isEmpty());
 
         List<History> histories = historyRepository.findAll();
         Assertions.assertNotNull(histories);

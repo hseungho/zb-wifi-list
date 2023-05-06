@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import service.controller.dto.HistorySaveRequestDto;
 import service.controller.dto.WifiDistanceResponseDto;
 import service.controller.dto.WifiExistsResponseDto;
+import service.controller.dto.WifiNearResponseDto;
 import service.entity.History;
 import service.entity.Wifi;
 import service.repository.HistoryRepository;
@@ -26,7 +27,7 @@ public class WifiFindServiceImpl implements WifiFindService {
     }
 
     @Override
-    public List<WifiDistanceResponseDto> getDistanceWifiList(Double lat, Double lnt) {
+    public WifiNearResponseDto getDistanceWifiList(Double lat, Double lnt, int page) {
         List<Wifi> wifis = wifiRepository.findAll();
         if (wifis.isEmpty()) {
             return null;
@@ -36,12 +37,19 @@ public class WifiFindServiceImpl implements WifiFindService {
                 .filter(wifi -> wifi.getLat() > 0 && wifi.getLnt() > 0)
                 .map(wifi -> WifiDistanceResponseDto.of(wifi.calcDistance(lat, lnt), wifi))
                 .sorted(Comparator.comparing(WifiDistanceResponseDto::getDistance))
-                .collect(Collectors.toList())
-                .subList(0, 20);
+                .collect(Collectors.toList());
+
+        int totalSize = distanceDtos.size();
+
+        int size = 20;
+        int endIdx = Math.min(page*size, totalSize);
+        int startIdx = endIdx-size;
+
+        distanceDtos = distanceDtos.subList(startIdx, endIdx);
 
         historyRepository.save(History.of(new HistorySaveRequestDto(lat, lnt)));
 
-        return distanceDtos;
+        return WifiNearResponseDto.of(totalSize, distanceDtos);
     }
 
     @Override

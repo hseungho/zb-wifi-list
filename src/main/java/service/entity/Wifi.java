@@ -66,8 +66,13 @@ public class Wifi {
         wifi.instlYear = dto.getX_SWIFI_CNSTC_YEAR();
         wifi.inOutType = dto.getX_SWIFI_INOUT_DOOR();
         wifi.connectEnv = dto.getX_SWIFI_REMARS3();
-        wifi.lat = dto.getLAT();
-        wifi.lnt = dto.getLNT();
+        if (-90 <= dto.getLAT() && dto.getLAT() >= 90) {
+            wifi.lat = dto.getLNT();
+            wifi.lnt = dto.getLAT();
+        } else {
+            wifi.lat = dto.getLAT();
+            wifi.lnt = dto.getLNT();
+        }
         wifi.workedAt = dto.getWORK_DTTM();
         return wifi;
     }

@@ -2,12 +2,11 @@ package service.applicationservice.wifi;
 
 import service.controller.dto.WifiDistanceResponseDto;
 import service.controller.dto.WifiExistsResponseDto;
-
-import java.util.List;
+import service.controller.dto.WifiNearResponseDto;
 
 public interface WifiFindService {
 
-    List<WifiDistanceResponseDto> getDistanceWifiList(Double lat, Double lnt);
+    WifiNearResponseDto getDistanceWifiList(Double lat, Double lnt, int page);
 
     WifiDistanceResponseDto getWifiInfo(String id, Double lat, Double lnt);
 

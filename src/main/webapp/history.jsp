@@ -65,7 +65,7 @@
         function useHistory() {
             const lat = event.target.dataset.lat;
             const lnt = event.target.dataset.lnt;
-            window.location.href=`/index.jsp?lat=${'${lat}'}&lnt=${'${lnt}'}`;
+            window.location.href=`/index.jsp?lat=${'${lat}'}&lnt=${'${lnt}'}&page=1`;
         }
 
         function deleteHistory() {
@@ -74,7 +74,6 @@
             fetch(url, { method: 'DELETE' })
                 .then((res) => {
                     if (res.ok) {
-                        alert('삭제되었습니다.')
                         window.location.reload();
                     } else {
                         if (res.status === 400) {

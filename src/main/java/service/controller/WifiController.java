@@ -25,8 +25,10 @@ public class WifiController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String id = req.getParameter("id");
+        Double lat = Double.valueOf(req.getParameter("lat"));
+        Double lnt = Double.valueOf(req.getParameter("lnt"));
 
-        WifiDistanceResponseDto wifi = wifiFindService.getWifiInfo(id);
+        WifiDistanceResponseDto wifi = wifiFindService.getWifiInfo(id, lat, lnt);
 
         ServletUtils.response(resp, wifi);
     }

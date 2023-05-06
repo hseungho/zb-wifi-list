@@ -45,11 +45,13 @@ public class WifiFindServiceImpl implements WifiFindService {
     }
 
     @Override
-    public WifiDistanceResponseDto getWifiInfo(String id) {
+    public WifiDistanceResponseDto getWifiInfo(String id, Double lat, Double lnt) {
         Wifi wifi = wifiRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("NO Data"));
+                .orElseThrow(() -> new RuntimeException("NO WIFI DATA!!!"));
 
-        return WifiDistanceResponseDto.of(0.0000, wifi);
+        Double distance = wifi.calcDistance(lat, lnt);
+
+        return WifiDistanceResponseDto.of(distance, wifi);
     }
 
     @Override

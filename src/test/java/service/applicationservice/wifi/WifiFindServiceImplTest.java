@@ -40,8 +40,10 @@ class WifiFindServiceImplTest {
         wifiSaveService.getOpenApiWifiListAndSave();
 
         String id = "---EP000001";
+        Double lat = 37.5544069;
+        Double lnt = 126.8998666;
 
-        WifiDistanceResponseDto wifiInfo = wifiFindService.getWifiInfo(id);
+        WifiDistanceResponseDto wifiInfo = wifiFindService.getWifiInfo(id, lat, lnt);
         Assertions.assertNotNull(wifiInfo);
         Assertions.assertEquals(id, wifiInfo.getId());
     }

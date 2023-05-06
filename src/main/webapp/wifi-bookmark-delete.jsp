@@ -10,17 +10,10 @@
         <jsp:include page="component/header.jsp"/>
     </div>
     <div class="wbd-table-container">
-        <table>
-            <thead>
-                <tr style="height: 30px">
-                    <th>북마크 이름</th>
-                    <th>와이파이명</th>
-                    <th>등록일자</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- WIFI_BOOKMARK DATA SEGMENT -->
-            </tbody>
+        <table id="vertical-1" class="table table-horizontal table-bordered">
+            <tr><th>북마크 이름</th><td id ="bookmark_name"></td></tr>
+            <tr><th>와이파이명</th><td id ="wifi_name"></td></tr>
+            <tr><th>등록일자</th><td id ="created_at"></td></tr>
         </table>
         <div style="display: flex; flex-direction: column; border-collapse: collapse;">
             <div style="margin: auto">
@@ -41,19 +34,13 @@
                     alert("정보를 가져오는데에 실패했습니다.");
                     return;
                 }
-                const tbody = document.querySelector('table tbody');
-                tbody.innerHTML = '';
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                            <td>${'${wifiBookmark.bookmarkName}'}</td>
-                            <td>${'${wifiBookmark.wifiName}'}</td>
-                            <td>${'${wifiBookmark.createdAt}'}</td>
-                        `;
-                tbody.appendChild(tr);
+                document.querySelector('#bookmark_name').innerHTML = `${'${wifiBookmark.bookmarkName}'}`;
+                document.querySelector('#wifi_name').innerHTML = `${'${wifiBookmark.wifiName}'}`;
+                document.querySelector('#created_at').innerHTML = `${'${wifiBookmark.createdAt}'}`;
             })
             .catch(err => {
                 console.log(err)
-                alert(err)
+                alert('정보를 가져오는데에 실패했습니다.')
             });
 
         function deleteWifiBookmark() {

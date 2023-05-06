@@ -10,19 +10,9 @@
         <jsp:include page="component/header.jsp"/>
     </div>
     <div class="bge-table-container">
-        <table>
-            <thead>
-                <tr style="height: 30px">
-                    <th>북마크 이름</th>
-                    <th>순서</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><input type="text" id="bookmark_name" name="bookmark_name"></td>
-                    <td><input type="text" id="bookmark_order" name="bookmark_order"></td>
-                </tr>
-            </tbody>
+        <table id="vertical-1" class="table table-horizontal table-bordered">
+            <tr><th>북마크 이름</th><td><input type="text" id="bookmark_name" name="bookmark_name"></td></tr>
+            <tr><th>순서</th><td><input type="text" id="bookmark_order" name="bookmark_order"></td></tr>
         </table>
         <div style="display: flex; flex-direction: column; border-collapse: collapse;">
             <div style="margin: auto">

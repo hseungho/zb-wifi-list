@@ -94,7 +94,7 @@
                 <td>${'${wifi.distance}'}</td>
                 <td>${'${wifi.id}'}</td>
                 <td>${'${wifi.district}'}</td>
-                <td><a href="wifi-detail.jsp?id=${'${wifi.id}'}">${'${wifi.name}'}</a></td>
+                <td><a href="wifi-detail.jsp?id=${'${wifi.id}'}&lat=${'${lat}'}&lnt=${'${lnt}'}">${'${wifi.name}'}</a></td>
                 <td>${'${wifi.address1}'}</td>
                 <td>${'${wifi.address2}'}</td>
                 <td>${'${wifi.instlFloor}'}</td>

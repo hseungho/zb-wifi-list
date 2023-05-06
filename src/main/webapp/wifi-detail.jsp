@@ -16,104 +16,24 @@
     <button onclick="saveWifiBookmark()">북마크 추가하기</button>
 
     <table id="vertical-1" class="table table-horizontal table-bordered">
-        <tr>
-            <th>거리(km)</th>
-            <td id ="distance"></td>
-        </tr>
-        <tr>
-            <th>관리번호</th>
-            <td id ="mgrNo"></td>
-        </tr>
-        <tr>
-            <th>지역구</th>
-            <td id ="WRDOFC"></td>
-        </tr>
-        <tr>
-            <th>와이파이명</th>
-            <td id ="name"></td>
-        </tr>
-        <tr>
-            <th>도로명주소</th>
-            <td id ="streetAddress"></td>
-        </tr>
-        <tr>
-            <th>상세주소</th>
-            <td id ="detailAddress"></td>
-        </tr>
-        <tr>
-            <th>설치위치(층)</th>
-            <td id ="installFloor"></td>
-        </tr>
-        <tr>
-            <th>설치유형</th>
-            <td id ="installType"></td>
-        </tr>
-        <tr>
-            <th>설치기관</th>
-            <td id ="installMby"></td>
-        </tr>
-        <tr>
-            <th>서비스구분</th>
-            <td id ="svcEc"></td>
-        </tr>
-        <tr>
-            <th>망종류</th>
-            <td id ="cmcwr"></td>
-        </tr>
-        <tr>
-            <th>설치년도</th>
-            <td id ="cnstcYear"></td>
-        </tr>
-        <tr>
-            <th>실내외구분</th>
-            <td id ="inoutDoor"></td>
-        </tr>
-        <tr>
-            <th>WIFI환경</th>
-            <td id ="remars3"></td>
-        </tr>
-        <tr>
-            <th>X좌표</th>
-            <td id ="longitude"></td>
-        </tr>
-        <tr>
-            <th>Y좌표</th>
-            <td id ="latitude"></td>
-        </tr>
-        <tr>
-            <th>작업일자</th>
-            <td id ="workDttm"></td>
-        </tr>
+        <tr><th>거리(km)</th><td id ="distance"></td></tr>
+        <tr><th>관리번호</th><td id ="wifiId"></td></tr>
+        <tr><th>자치구</th><td id ="district"></td></tr>
+        <tr><th>와이파이명</th><td id ="name"></td></tr>
+        <tr><th>도로명주소</th><td id ="address1"></td></tr>
+        <tr><th>상세주소</th><td id ="address2"></td></tr>
+        <tr><th>설치위치(층)</th><td id ="instlFloor"></td></tr>
+        <tr><th>설치유형</th><td id ="instlType"></td></tr>
+        <tr><th>설치기관</th><td id ="instlOrg"></td></tr>
+        <tr><th>서비스구분</th><td id ="serviceClass"></td></tr>
+        <tr><th>망종류</th><td id ="netType"></td></tr>
+        <tr><th>설치년도</th><td id ="instlYear"></td></tr>
+        <tr><th>실내외구분</th><td id ="inOutType"></td></tr>
+        <tr><th>WIFI접속환경</th><td id ="connectEnv"></td></tr>
+        <tr><th>X좌표</th><td id ="lat"></td></tr>
+        <tr><th>Y좌표</th><td id ="lnt"></td></tr>
+        <tr><th>작업일자</th><td id ="workedAt"></td></tr>
     </table>
-<%--    <div class="table-container">--%>
-<%--        <table>--%>
-<%--            <thead>--%>
-<%--                <tr style="height: 30px">--%>
-<%--                    <th>거리(km)</th>--%>
-<%--                    <th>관리번호</th>--%>
-<%--                    <th>자치구</th>--%>
-<%--                    <th>와이파이명</th>--%>
-<%--                    <th>도로명주소</th>--%>
-<%--                    <th>상세주소</th>--%>
-<%--                    <th>설치위치(층)</th>--%>
-<%--                    <th>설치유형</th>--%>
-<%--                    <th>설치기관</th>--%>
-<%--                    <th>서비스구분</th>--%>
-<%--                    <th>망종류</th>--%>
-<%--                    <th>설치년도</th>--%>
-<%--                    <th>실내외구분</th>--%>
-<%--                    <th>WIFI접속환경</th>--%>
-<%--                    <th>X좌표</th>--%>
-<%--                    <th>Y좌표</th>--%>
-<%--                    <th>작업일자</th>--%>
-<%--                </tr>--%>
-<%--            </thead>--%>
-<%--            <tbody>--%>
-<%--                <tr>--%>
-<%--                </tr>--%>
-<%--            </tbody>--%>
-<%--        </table>--%>
-<%--    </div>--%>
 
     <script>
         const bookmarkListFetchUrl = encodeURI('/bookmark/list');
@@ -129,40 +49,33 @@
                     select.append(option);
                 });
             })
-            .catch(err => alert(err));
+            .catch(() => alert('북마크 그룹 정보를 가져오는데에 실패했습니다'));
 
-        const params = new URLSearchParams(window.location.search);
-        const wifiId = params.get('id');
-        const wifiFetchUrl = encodeURI(`/wifi?id=${'${wifiId}'}`);
+        const queryString = window.location.search;
+        const wifiFetchUrl = encodeURI(`/wifi${'${queryString}'}`);
         fetch(wifiFetchUrl, { method: 'GET' })
             .then(res => res.json())
             .then(data => {
                 const wifi = data;
-                const tbody = document.querySelector('table tbody');
-                tbody.innerHTML = '';
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                                  <td>${'${wifi.distance}'}</td>
-                                  <td>${'${wifi.id}'}</td>
-                                  <td>${'${wifi.district}'}</td>
-                                  <td><a href="wifi-detail.jsp?id=${'${wifi.id}'}">${'${wifi.name}'}</a></td>
-                                  <td>${'${wifi.address1}'}</td>
-                                  <td>${'${wifi.address2}'}</td>
-                                  <td>${'${wifi.instlFloor}'}</td>
-                                  <td>${'${wifi.instlType}'}</td>
-                                  <td>${'${wifi.instlOrg}'}</td>
-                                  <td>${'${wifi.serviceClass}'}</td>
-                                  <td>${'${wifi.netType}'}</td>
-                                  <td>${'${wifi.instlYear}'}</td>
-                                  <td>${'${wifi.inOutType}'}</td>
-                                  <td>${'${wifi.connectEnv}'}</td>
-                                  <td>${'${wifi.lat}'}</td>
-                                  <td>${'${wifi.lnt}'}</td>
-                                  <td>${'${wifi.workedAt}'}</td>
-                                `;
-                tbody.appendChild(tr);
+                document.querySelector('#distance').innerHTML = `${'${wifi.distance}'}`;
+                document.querySelector('#wifiId').innerHTML = `${'${wifi.id}'}`;
+                document.querySelector('#district').innerHTML = `${'${wifi.district}'}`;
+                document.querySelector('#name').innerHTML = `<a href="wifi-detail.jsp${'${queryString}'}">${'${wifi.name}'}</a>`;
+                document.querySelector('#address1').innerHTML = `${'${wifi.address1}'}`;
+                document.querySelector('#address2').innerHTML = `${'${wifi.address2}'}`;
+                document.querySelector('#instlFloor').innerHTML = `${'${wifi.instlFloor}'}`;
+                document.querySelector('#instlType').innerHTML = `${'${wifi.instlType}'}`;
+                document.querySelector('#instlOrg').innerHTML = `${'${wifi.instlOrg}'}`;
+                document.querySelector('#serviceClass').innerHTML = `${'${wifi.serviceClass}'}`;
+                document.querySelector('#netType').innerHTML = `${'${wifi.netType}'}`;
+                document.querySelector('#instlYear').innerHTML = `${'${wifi.instlYear}'}`;
+                document.querySelector('#inOutType').innerHTML = `${'${wifi.inOutType}'}`;
+                document.querySelector('#connectEnv').innerHTML = `${'${wifi.connectEnv}'}`;
+                document.querySelector('#lat').innerHTML = `${'${wifi.lat}'}`;
+                document.querySelector('#lnt').innerHTML = `${'${wifi.lnt}'}`;
+                document.querySelector('#workedAt').innerHTML = `${'${wifi.workedAt}'}`;
             })
-            .catch(err => console.log(err));
+            .catch(() => alert('WIFI 정보를 가져오는데에 실패했습니다'));
 
         function saveWifiBookmark() {
             const bookmarkId = document.querySelector('select').value;
@@ -171,6 +84,8 @@
                 return;
             }
 
+            const params = new URLSearchParams(window.location.search);
+            const wifiId = params.get('id');
             const url = encodeURI('/wifi-bookmark');
             fetch(url, {
                 method: 'POST',

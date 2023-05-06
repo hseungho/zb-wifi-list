@@ -38,7 +38,10 @@
                 originName = `${'${bookmark.name}'}`;
                 originOrder = `${'${bookmark.order}'}`;
             })
-            .catch(err => alert(err))
+            .catch(err => {
+                console.log(err)
+                alert('북마크 그룹 정보를 가져오는데에 실패했습니다.')
+            })
 
         function updateBookmark() {
             const name = document.querySelector('#bookmark_name').value;
@@ -69,7 +72,10 @@
                 })
             })
                 .then(() => window.location.href='/bookmark-group.jsp')
-                .catch(err => alert(err));
+                .catch(err => {
+                    console.log(err)
+                    alert('북마크 그룹을 수정하는데에 실패하였습니다.')
+                });
         }
     </script>
 </body>

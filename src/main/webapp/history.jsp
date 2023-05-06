@@ -59,7 +59,7 @@
             })
             .catch(error => {
                 console.error('Error:', error);
-                alert('HISTORY 정보를 가져오는 중 오류가 발생했습니다.');
+                alert('위치 히스토리 정보를 가져오는 중 오류가 발생했습니다.');
             });
 
         function useHistory() {
@@ -84,7 +84,10 @@
                         }
                     }
                 })
-                .catch(err => alert(err));
+                .catch(err => {
+                    console.log(err)
+                    alert('위치 히스토리를 삭제하는데에 실패하였습니다.')
+                });
         }
     </script>
 </body>

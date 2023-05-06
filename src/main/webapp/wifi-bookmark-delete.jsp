@@ -51,7 +51,7 @@
                 .then(() => window.location.href='wifi-bookmark-list.jsp')
                 .catch(err => {
                     console.log(err)
-                    alert(err)
+                    alert('북마크를 삭제하는데에 실패하였습니다.')
                 });
         }
 

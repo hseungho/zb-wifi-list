@@ -47,7 +47,10 @@
                 })
             })
                 .then(() => window.location.href='/bookmark-group.jsp')
-                .catch(err => alert(err));
+                .catch(err => {
+                    console.log(err)
+                    alert('북마크 그룹을 추가하는데에 실패하였습니다.')
+                });
         }
     </script>
 </body>

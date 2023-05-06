@@ -62,7 +62,7 @@
                 })
                 .catch(err => {
                     console.log(err);
-                    alert(err);
+                    alert('WIFI 정보를 가져오는데에 실패했습니다.');
                 });
         }
     </script>

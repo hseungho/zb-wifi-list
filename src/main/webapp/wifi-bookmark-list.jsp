@@ -56,7 +56,7 @@
             })
             .catch(err => {
                 console.log(err);
-                alert(err);
+                alert('북마크를 조회하는데에 실패했습니다.');
             })
     </script>
 

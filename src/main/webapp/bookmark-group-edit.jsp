@@ -20,6 +20,9 @@
             </div>
         </div>
     </div>
+    <div class="footer">
+        <jsp:include page="component/footer.jsp"/>
+    </div>
 
     <script>
         let originName = null;

@@ -25,6 +25,9 @@
             <!-- BOOKMARK DATA SEGMENT -->
         </tbody>
     </table>
+    <div class="footer">
+        <jsp:include page="component/footer.jsp"/>
+    </div>
 
     <script>
         const bookmarkListFetchUrl = encodeURI('/bookmark/list');

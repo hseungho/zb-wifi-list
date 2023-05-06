@@ -34,6 +34,9 @@
         <tr><th>Y좌표</th><td id ="lnt"></td></tr>
         <tr><th>작업일자</th><td id ="workedAt"></td></tr>
     </table>
+    <div class="footer">
+        <jsp:include page="component/footer.jsp"/>
+    </div>
 
     <script>
         const bookmarkListFetchUrl = encodeURI('/bookmark/list');

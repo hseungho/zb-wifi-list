@@ -6,7 +6,7 @@
             margin: auto;
             border: 8px solid #f3f3f3;
             border-radius: 50%;
-            border-top: 8px solid #3498db;
+            border-top: 8px solid #4CAF50;
             width: 50px;
             height: 50px;
             -webkit-animation: spin 2s linear infinite; /* Safari */
@@ -26,6 +26,9 @@
 </head>
 <body>
     <div id="load_wifi_main_content" style="display: flex; flex-direction: column; border-collapse: collapse; margin-top: 30px"></div>
+    <div class="footer">
+        <jsp:include page="component/footer.jsp"/>
+    </div>
 
     <script>
         fetch('/wifi/exist', {

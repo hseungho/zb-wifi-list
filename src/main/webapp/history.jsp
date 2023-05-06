@@ -25,7 +25,9 @@
         </tr>
         </tbody>
     </table>
-
+    <div class="footer">
+        <jsp:include page="component/footer.jsp"/>
+    </div>
 
     <script>
         fetch('/history', {method:'GET'})

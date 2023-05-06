@@ -25,6 +25,9 @@
             </tbody>
         </table>
     </div>
+    <div class="footer">
+        <jsp:include page="component/footer.jsp"/>
+    </div>
 
     <script>
         const listFetchUrl = encodeURI('/wifi-bookmark/list');

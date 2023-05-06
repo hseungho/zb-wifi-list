@@ -28,8 +28,8 @@ public class Wifi {
     private Integer instlYear;
     private String inOutType;
     private String connectEnv;
-    private Double lat; // 위도, x좌표
-    private Double lnt; // 경도, y좌표
+    private Double lat;
+    private Double lnt;
     private LocalDateTime workedAt;
 
     public Double calcDistance(Double oLat, Double oLnt) {

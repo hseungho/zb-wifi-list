@@ -29,8 +29,6 @@ public class WifiController extends HttpServlet {
         Double lat = Double.valueOf(req.getParameter("lat"));
         Double lnt = Double.valueOf(req.getParameter("lnt"));
 
-        System.out.println(id);
-
         WifiDistanceResponseDto wifi = wifiFindService.getWifiInfo(id, lat, lnt);
 
         ServletUtils.response(resp, wifi);

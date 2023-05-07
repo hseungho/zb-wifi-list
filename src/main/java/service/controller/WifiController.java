@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.URLDecoder;
 
 @WebServlet("/wifi")
 public class WifiController extends HttpServlet {
@@ -24,9 +25,11 @@ public class WifiController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String id = req.getParameter("id");
+        String id = URLDecoder.decode(req.getParameter("id"), "UTF-8");
         Double lat = Double.valueOf(req.getParameter("lat"));
         Double lnt = Double.valueOf(req.getParameter("lnt"));
+
+        System.out.println(id);
 
         WifiDistanceResponseDto wifi = wifiFindService.getWifiInfo(id, lat, lnt);
 

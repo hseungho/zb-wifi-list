@@ -49,7 +49,11 @@ public class ConnectionPool {
     }
 
     public void releaseConnection(Connection connection) {
-        pool.add(connection);
+        try {
+            pool.put(connection);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private static boolean isDatabaseFileAvailable(Connection connection) {
@@ -64,21 +68,24 @@ public class ConnectionPool {
     }
 
     private Connection getAvailableConnection() throws SQLException {
-        long startTime = System.currentTimeMillis();
-        while (System.currentTimeMillis() - startTime < DBConfig.MAX_WAIT_TIME) {
-            Connection connection = pool.poll();
-            if (connection != null) {
+        try {
+            long startTime = System.currentTimeMillis();
+            while (System.currentTimeMillis() - startTime < DBConfig.MAX_WAIT_TIME) {
+                Connection connection = pool.take();
                 if (isDatabaseFileAvailable(connection)) {
                     return connection;
                 } else {
-                    pool.offer(connection);
+                    pool.put(connection);
+                }
+
+                try {
+                    Thread.sleep(DBConfig.WAIT_TIME);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
             }
-            try {
-                Thread.sleep(DBConfig.WAIT_TIME);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
         throw new SQLException("Timeout while waiting for available connection");
     }

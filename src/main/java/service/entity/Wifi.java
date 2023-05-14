@@ -31,6 +31,7 @@ public class Wifi {
     private Double lat;
     private Double lnt;
     private LocalDateTime workedAt;
+    private Double distance;
 
     public Double calcDistance(Double oLat, Double oLnt) {
         double theta = this.lnt - oLnt;
@@ -95,6 +96,11 @@ public class Wifi {
         wifi.lat = rs.getDouble(WifiConstants.FIELD_LAT);
         wifi.lnt = rs.getDouble(WifiConstants.FIELD_LNT);
         wifi.workedAt = LocalDateTime.parse(rs.getString(WifiConstants.FIELD_WORKED_AT));
+        try {
+            wifi.distance = rs.getDouble("distance");
+        } catch (SQLException e) {
+            return wifi;
+        }
         return wifi;
     }
 

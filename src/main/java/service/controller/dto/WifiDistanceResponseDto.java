@@ -1,6 +1,10 @@
 package service.controller.dto;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.ToString;
 import service.entity.Wifi;
 
 @Getter
@@ -26,6 +30,13 @@ public class WifiDistanceResponseDto {
     private Double lat;
     private Double lnt;
     private String workedAt;
+
+    public static WifiDistanceResponseDto of(Wifi wifi) {
+        WifiDistanceResponseDto response = new WifiDistanceResponseDto();
+        response.distance = Math.round(wifi.getDistance()*10000)/10000.0;
+        response.entityOf(wifi);
+        return response;
+    }
 
     public static WifiDistanceResponseDto of(Double distance, Wifi wifi) {
         WifiDistanceResponseDto dto = new WifiDistanceResponseDto();

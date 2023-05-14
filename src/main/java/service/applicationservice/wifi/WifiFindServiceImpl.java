@@ -53,6 +53,20 @@ public class WifiFindServiceImpl implements WifiFindService {
     }
 
     @Override
+    public WifiNearResponseDto getDistanceWifiList(Double lat, Double lnt) {
+        List<Wifi> wifis = wifiRepository.findByNearDistanceOrderByDistance(lat, lnt);
+        if (wifis.isEmpty()) {
+            return null;
+        }
+        List<WifiDistanceResponseDto> responseList = wifis.stream().map(WifiDistanceResponseDto::of).collect(Collectors.toList());
+
+        historyRepository.save(History.of(new HistorySaveRequestDto(lat, lnt)));
+
+        return WifiNearResponseDto.of(responseList);
+    }
+
+
+    @Override
     public WifiDistanceResponseDto getWifiInfo(String id, Double lat, Double lnt) {
         Wifi wifi = wifiRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("NO WIFI DATA!!!"));

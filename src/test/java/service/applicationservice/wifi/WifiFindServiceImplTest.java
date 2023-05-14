@@ -25,6 +25,7 @@ class WifiFindServiceImplTest {
         Double lat = 37.5544069;
         Double lnt = 126.8998666;
         WifiNearResponseDto dtos = wifiFindService.getDistanceWifiList(lat, lnt, 1);
+        dtos.getWifiList().forEach(System.out::println);
 
         Assertions.assertNotNull(dtos);
         Assertions.assertNotEquals(0, dtos.getTotalItems());
@@ -48,6 +49,16 @@ class WifiFindServiceImplTest {
         WifiDistanceResponseDto wifiInfo = wifiFindService.getWifiInfo(id, lat, lnt);
         Assertions.assertNotNull(wifiInfo);
         Assertions.assertEquals(id, wifiInfo.getId());
+    }
+
+    @Test
+    void test_new() {
+        wifiSaveService.getOpenApiWifiListAndSave();
+
+        Double lat = 37.5544069;
+        Double lnt = 126.8998666;
+        WifiNearResponseDto wifiList = wifiFindService.getDistanceWifiList(lat, lnt);
+        wifiList.getWifiList().forEach(System.out::println);
     }
 
 }

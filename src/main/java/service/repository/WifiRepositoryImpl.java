@@ -79,6 +79,27 @@ public class WifiRepositoryImpl extends BaseRepository<Wifi, String> implements 
     }
 
     @Override
+    public List<Wifi> findByNearDistanceOrderByDistance(Double lat, Double lnt) {
+        String query = SQLConstants.WIFI_TABLE.SELECT_TOP20_WHERE_CLOSED_DISTANCE_ASC;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            preparedStatement = getTxConnection().prepareStatement(query);
+            resultSet = super.executeQuery(preparedStatement, lat, lnt, lat);
+            List<Wifi> wifis = new ArrayList<>();
+            while (resultSet.next()) {
+                Wifi wifi = Wifi.of(resultSet);
+                wifis.add(wifi);
+            }
+            return wifis;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            close(preparedStatement, resultSet);
+        }
+    }
+
+    @Override
     public Wifi update(Wifi entity) {
         return null;
     }
@@ -181,4 +202,5 @@ public class WifiRepositoryImpl extends BaseRepository<Wifi, String> implements 
         }
         return exists;
     }
+
 }

@@ -19,6 +19,14 @@ public class SQLConstants {
 
         public static final String SELECT_WHERE_ID = "SELECT * FROM WIFI WHERE id = ?;";
 
+        /** 1: nowLat, 2: nowLng, 3: nowLat */
+        public static final String SELECT_TOP20_WHERE_CLOSED_DISTANCE_ASC =
+                "SELECT *, " +
+                    "(6371 * acos( cos( radians( ? ) ) * cos( radians( lat ) ) * cos( radians( lnt ) - radians( ? ) ) + sin( radians( ? ) ) * sin( radians( lat ) ) ) ) as distance " +
+                "FROM wifi " +
+                "ORDER BY distance ASC " +
+                "LIMIT 0, 20; ";
+
         public static final String DELETE_ALL = "DELETE FROM wifi;";
 
         public static final String EXISTS_AT_LEAST_ONE = "SELECT EXISTS(SELECT 1 FROM wifi LIMIT 1);";

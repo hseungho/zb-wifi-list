@@ -11,5 +11,6 @@ public interface WifiRepository extends CrudRepository<Wifi, String> {
     Integer saveAll(List<Map<String, Object>> mapList);
     void deleteAll();
     boolean existsAtLeastOne();
+    List<Wifi> findByNearDistanceOrderByDistance(Double lat, Double lnt);
 
 }

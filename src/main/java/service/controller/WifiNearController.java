@@ -31,6 +31,7 @@ public class WifiNearController extends HttpServlet {
         Double lnt = Double.parseDouble(lntStr);
 
         WifiNearResponseDto wifiList = wifiFindService.getDistanceWifiList(lat, lnt, page);
+//        WifiNearResponseDto wifiList = wifiFindService.getDistanceWifiList(lat, lnt);
         ServletUtils.response(resp, wifiList);
     }
 }
